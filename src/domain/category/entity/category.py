@@ -2,7 +2,7 @@ import logging
 from typing import Optional
 from uuid import UUID, uuid4
 
-from category_interface import CategoryInterface
+from src.domain.category.entity.category_interface import CategoryInterface
 
 
 class Category(CategoryInterface):

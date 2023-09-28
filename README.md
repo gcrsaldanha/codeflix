@@ -12,7 +12,10 @@ Full Cycle – Codeflix
 
 
 ## Business questions
-- [ ] Should I be able to change a category that is not active?
+- [ ] Should I be able to change a `Category` that is not active?
+- [ ] Should we allow the id to be provided when creating a `Category`?
+  - [ ] If so, should we validate it? uuid
+- [ ] Confirm CategoryCreation logic usecase vs entity (should usecase create an inactive category?)
 
 
 ## Technical questions
