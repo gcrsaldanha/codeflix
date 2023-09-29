@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Iterable
 from uuid import UUID
 
-from src.domain.category.entity.category import Category
+from domain.category.entity.category import Category
 
 
 class CategoryRepositoryInterface(ABC):

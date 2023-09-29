@@ -1,7 +1,7 @@
 from uuid import UUID, uuid4
 import pytest
 
-from src.domain.category.entity.category import Category
+from domain.category.entity.category import Category
 
 
 class TestCategoryInit:

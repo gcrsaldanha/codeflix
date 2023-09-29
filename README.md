@@ -4,7 +4,7 @@ Full Cycle – Codeflix
 
 ## Next steps
 
-- [x] Add repository for Category
+- [ ] Add repository for Category (concrete implementation)
 - [x] Add `CreateCategory` and `ListCategories` usecases
 - [ ] Implement a HTTP endpoint to access use cases
   - [ ] Django or FastAPI? (FlaskAPI might be simpler for DDD / Clean Arch approach)
@@ -20,6 +20,7 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
+- [ ] If I want ordering, should the repository or the usecase provide it? Both?
 - [ ] Do I need a factory for `Category`?
 - [ ] Implement a FakeRepository instead of using mocks?
 - [ ] Logging: is it something to be injected in the `AbstractEntity`? Similar to how we inject `Event`

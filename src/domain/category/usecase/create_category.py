@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.domain.category.entity.category import Category
-from src.domain.category.repository.category_repository_interface import CategoryRepositoryInterface
+from domain.category.entity.category import Category
+from domain.category.repository.category_repository_interface import CategoryRepositoryInterface
 
 
 @dataclass

@@ -15,12 +15,12 @@ def repository() -> CategoryRepositoryInterface:
 
 
 # Just demonstrating that we do not need to make classes for tests
-def test_list_all_categories(repository: CategoryRepositoryInterface):
+def test_list_all_categories_ordered_by_name(repository: CategoryRepositoryInterface):
     category_id_1 = uuid4()
     category_id_2 = uuid4()
 
-    category_1 = Category(id=category_id_1, name="Drama", description="Category for drama"),
-    category_2 = Category(id=category_id_2, name="Action", description="Category for action"),
+    category_1 = Category(id=category_id_1, name="Drama", description="Category for drama")
+    category_2 = Category(id=category_id_2, name="Action", description="Category for action")
 
     repository.get_all.return_value = iter([
         category_1,
@@ -31,12 +31,12 @@ def test_list_all_categories(repository: CategoryRepositoryInterface):
     response = use_case.execute(ListCategoriesRequest())
 
     assert response.categories == [
-        category_1,
         category_2,
+        category_1,
     ]
 
 
-def test_list_all_categories_using_fake_repository():
+def test_list_all_categories_ordered_by_name_using_fake_repository():
     category_1 = Category(name="Drama", description="Category for drama")
     category_2 = Category( name="Action", description="Category for action")
 
@@ -46,6 +46,6 @@ def test_list_all_categories_using_fake_repository():
     response = use_case.execute(ListCategoriesRequest())
 
     assert response.categories == [
-        category_1,
         category_2,
+        category_1,
     ]

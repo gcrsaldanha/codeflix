@@ -1,7 +1,7 @@
 from typing import Optional
 from uuid import UUID
 
-from src.domain.category.entity.category import Category
+from domain.category.entity.category import Category
 
 
 class CategoryFactory:

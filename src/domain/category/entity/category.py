@@ -2,7 +2,7 @@ import logging
 from typing import Optional
 from uuid import UUID, uuid4
 
-from src.domain.category.entity.category_interface import CategoryInterface
+from domain.category.entity.category_interface import CategoryInterface
 
 
 class Category(CategoryInterface):
@@ -23,6 +23,9 @@ class Category(CategoryInterface):
         self.__is_active = is_active
 
         self.validate()
+
+    def __repr__(self):
+        return f"<Category {self.name}>"
 
     @property
     def is_active(self) -> bool:
