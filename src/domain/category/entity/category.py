@@ -2,6 +2,9 @@ import logging
 from typing import Optional
 from uuid import UUID, uuid4
 
+from domain._shared.notification.notification import Notification
+from domain._shared.notification.notification_error import NotificationError, NotificationException
+from domain._shared.notification.notification_interface import NotificationInterface
 from domain.category.entity.category_interface import CategoryInterface
 
 
@@ -14,6 +17,7 @@ class Category(CategoryInterface):
         is_active: bool = True,
         id: Optional[UUID] = None,
     ) -> None:
+        self.notification: NotificationInterface = Notification()  # TODO: move this to AbstractEntity
         if not id:
             id = uuid4()
 
@@ -27,27 +31,15 @@ class Category(CategoryInterface):
     def __repr__(self):
         return f"<Category {self.name}>"
 
-    @property
-    def is_active(self) -> bool:
-        return self.__is_active
-
-    @property
-    def name(self) -> str:
-        return self.__name
-
-    @property
-    def description(self) -> str:
-        return self.__description
-
-    @property
-    def id(self) -> UUID:
-        return self.__id
-
     def validate(self) -> None:
         if not self.name:
-            raise ValueError("Category name cannot be empty")
+            self.notification.add_error(NotificationError(message="Category name cannot be empty", context="category"))
         if len(self.name) > 255:
-            raise ValueError("Category name cannot be longer than 255 characters")
+            self.notification.add_error(
+                NotificationError(message="Category name cannot be longer than 255 characters", context="category")
+            )
+        if self.notification.has_errors():
+            raise NotificationException(self.notification.errors)
 
     def activate(self) -> None:
         logging.info(f"Activating category {self.name}")
@@ -64,3 +56,19 @@ class Category(CategoryInterface):
         self.__name = name
         self.__description = description
         self.validate()
+
+    @property
+    def is_active(self) -> bool:
+        return self.__is_active
+
+    @property
+    def name(self) -> str:
+        return self.__name
+
+    @property
+    def description(self) -> str:
+        return self.__description
+
+    @property
+    def id(self) -> UUID:
+        return self.__id

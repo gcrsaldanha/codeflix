@@ -1,6 +1,7 @@
 from uuid import UUID, uuid4
 import pytest
 
+from domain._shared.notification.notification_error import NotificationException
 from domain.category.entity.category import Category
 
 
@@ -21,24 +22,42 @@ class TestCategoryInit:
         assert category.is_active is True
         assert category.id == given_category_id
 
-    def test_when_name_is_empty_then_raise_value_error(self):
-        try:
+    # def test_when_name_is_empty_then_raise_value_error(self):
+    #     try:
+    #         Category(name="")
+    #         assert False
+    #     except ValueError:
+    #         assert True
+
+    def test_when_name_is_empty_then_raise_notification_error(self):
+        with pytest.raises(NotificationException, match="Category name cannot be empty"):
             Category(name="")
-            assert False
-        except ValueError:
-            assert True
+
+    def test_when_is_larger_than_255_characters_then_raise_notification_error(self):
+        with pytest.raises(NotificationException, match="Category name cannot be longer than 255 characters"):
+            Category(name="a" * 256)
 
 
 class TestValidate:
-    def test_when_name_is_empty_then_raise_value_error(self):
-        # The only way to create a category with a "bad name" directly is if I access the private variable.
+    # def test_when_name_is_empty_then_raise_value_error(self):
+    #     # The only way to create a category with a "bad name" directly is if I access the private variable.
+    #     category = Category(name="Drama")
+    #     with pytest.raises(ValueError, match="Category name cannot be empty"):
+    #         category.change_category(name="", description="Category for drama")
+    #
+    # def test_when_name_is_longer_than_255_characters_then_raise_value_error(self):
+    #     category = Category(name="Drama")
+    #     with pytest.raises(ValueError, match="Category name cannot be longer than 255 characters"):
+    #         category.change_category(name="a" * 256, description="Category for drama")
+
+    def test_when_name_is_empty_then_raise_notification_error(self):
         category = Category(name="Drama")
-        with pytest.raises(ValueError, match="Category name cannot be empty"):
+        with pytest.raises(NotificationException, match="Category name cannot be empty"):
             category.change_category(name="", description="Category for drama")
 
-    def test_when_name_is_longer_than_255_characters_then_raise_value_error(self):
+    def test_when_name_is_longer_than_255_characters_then_raise_notification_error(self):
         category = Category(name="Drama")
-        with pytest.raises(ValueError, match="Category name cannot be longer than 255 characters"):
+        with pytest.raises(NotificationException, match="Category name cannot be longer than 255 characters"):
             category.change_category(name="a" * 256, description="Category for drama")
 
 
@@ -73,7 +92,12 @@ class TestChangeCategory:
         assert category.name == "Comedy"
         assert category.description == "Category for comedy"
 
-    def test_when_name_is_empty_then_raise_value_error(self):
+    # def test_when_name_is_empty_then_raise_value_error(self):
+    #     category = Category(name="Drama", description="Category for drama")
+    #     with pytest.raises(ValueError, match="Category name cannot be empty"):
+    #         category.change_category(name="", description="Category for drama")
+
+    def test_when_name_is_empty_then_raise_notification_error(self):
         category = Category(name="Drama", description="Category for drama")
-        with pytest.raises(ValueError, match="Category name cannot be empty"):
+        with pytest.raises(NotificationException, match="Category name cannot be empty"):
             category.change_category(name="", description="Category for drama")
