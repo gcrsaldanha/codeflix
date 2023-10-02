@@ -5,8 +5,8 @@ import pytest
 
 from domain.category.entity.category import Category
 from domain.category.repository.category_repository_interface import CategoryRepositoryInterface
-from domain.category.usecase.list_categories import ListCategories, ListCategoriesRequest
-from fixtures.repository.fake_category_repository import FakeCategoryRepository
+from application.usecase.category.list_categories import ListCategories, ListCategoriesRequest
+from infrastructure.db.repository.fake_category_repository import FakeCategoryRepository
 
 
 @pytest.fixture
@@ -38,7 +38,7 @@ def test_list_all_categories_ordered_by_name(repository: CategoryRepositoryInter
 
 def test_list_all_categories_ordered_by_name_using_fake_repository():
     category_1 = Category(name="Drama", description="Category for drama")
-    category_2 = Category( name="Action", description="Category for action")
+    category_2 = Category(name="Action", description="Category for action")
 
     fake_repository = FakeCategoryRepository(categories={category_1, category_2})
 

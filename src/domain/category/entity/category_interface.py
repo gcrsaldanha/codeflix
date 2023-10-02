@@ -15,10 +15,6 @@ class CategoryInterface(ABC):
     def change_category(self, name: str, description: str) -> None:
         pass
 
-    @abstractmethod
-    def validate(self) -> None:
-        pass
-
     @property
     @abstractmethod
     def is_active(self) -> bool:

@@ -15,7 +15,7 @@ class ListCategoriesRequest:
 
 
 @dataclass
-class ListCategoriesResponse:
+class ListCategoriesResponse:  # TODO: Add Presenter pattern
     categories: List[Category]
 
 
@@ -24,6 +24,7 @@ class ListCategories:
         self.category_repository = category_repository
 
     def execute(self, request: ListCategoriesRequest) -> ListCategoriesResponse:
+        # TODO: Paginator / Ordering / Filtering
         categories = sorted(self.category_repository.get_all(), key=lambda c: c.name)
 
         return ListCategoriesResponse(categories=categories)

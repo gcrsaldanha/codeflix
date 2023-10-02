@@ -2,13 +2,12 @@ import logging
 from typing import Optional
 from uuid import UUID, uuid4
 
-from domain._shared.notification.notification import Notification
+from domain._shared.entity.abstract_entity import AbstractEntity
 from domain._shared.notification.notification_error import NotificationError, NotificationException
-from domain._shared.notification.notification_interface import NotificationInterface
 from domain.category.entity.category_interface import CategoryInterface
 
 
-class Category(CategoryInterface):
+class Category(CategoryInterface, AbstractEntity):
     def __init__(
         self,
         *,
@@ -17,7 +16,7 @@ class Category(CategoryInterface):
         is_active: bool = True,
         id: Optional[UUID] = None,
     ) -> None:
-        self.notification: NotificationInterface = Notification()  # TODO: move this to AbstractEntity
+        super().__init__()
         if not id:
             id = uuid4()
 
@@ -26,36 +25,37 @@ class Category(CategoryInterface):
         self.__description = description
         self.__is_active = is_active
 
-        self.validate()
+        super().__init__()
+        self._validate()
+        if self.notification.has_errors():
+            raise NotificationException(self.notification.errors)
 
     def __repr__(self):
         return f"<Category {self.name}>"
 
-    def validate(self) -> None:
+    def _validate(self) -> None:  # TODO: decouple validation from Entity with a Validator
         if not self.name:
             self.notification.add_error(NotificationError(message="Category name cannot be empty", context="category"))
         if len(self.name) > 255:
             self.notification.add_error(
                 NotificationError(message="Category name cannot be longer than 255 characters", context="category")
             )
-        if self.notification.has_errors():
-            raise NotificationException(self.notification.errors)
 
     def activate(self) -> None:
         logging.info(f"Activating category {self.name}")
         self.__is_active = True
-        self.validate()
+        self._validate()
 
     def deactivate(self) -> None:
         logging.info(f"Activating category {self.name}")
         self.__is_active = False
-        self.validate()
+        self._validate()
 
     def change_category(self, name: str, description: str) -> None:
         logging.info(f"Changing category {self.name} to {name} wih description {description}")
         self.__name = name
         self.__description = description
-        self.validate()
+        self._validate()
 
     @property
     def is_active(self) -> bool:

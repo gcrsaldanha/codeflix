@@ -3,7 +3,7 @@ from unittest.mock import create_autospec
 import pytest
 
 from domain.category.repository.category_repository_interface import CategoryRepositoryInterface
-from domain.category.usecase.create_category import CreateCategory, CreateCategoryRequest
+from application.usecase.category.create_category import CreateCategory, CreateCategoryRequest
 
 
 class TestCreateCategory:

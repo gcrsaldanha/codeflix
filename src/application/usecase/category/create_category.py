@@ -10,6 +10,9 @@ class CreateCategoryRequest:
     name: str
     description: str = ""
 
+    def validate(self):
+        pass
+
 
 @dataclass
 class CreateCategoryResponse:

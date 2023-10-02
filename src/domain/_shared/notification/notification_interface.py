@@ -10,7 +10,7 @@ class NotificationInterface(ABC):
         pass
 
     @abstractmethod
-    def messages(self, context: str) -> str:
+    def messages(self, context: str = "") -> str:
         pass
 
     @property
