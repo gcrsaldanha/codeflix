@@ -14,8 +14,8 @@ class ListCategorySerializer(serializers.Serializer):
 
 class ListCategoryView(APIView):
     def get(self, request):
-        categories = ListCategories().execute(ListCategoriesRequest())
+        list_categories = ListCategories().execute(ListCategoriesRequest())
 
-        serializer = ListCategorySerializer(categories, many=True)
+        serializer = ListCategorySerializer(list_categories.categories, many=True)
 
         return Response(serializer.data)
