@@ -6,7 +6,7 @@ from core.category.application.usecase.category.list_categories import ListCateg
 
 
 class ListCategorySerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+    id = serializers.UUIDField()
     name = serializers.CharField()
     description = serializers.CharField()
     is_active = serializers.BooleanField()
