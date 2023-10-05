@@ -7,13 +7,14 @@ Full Cycle – Codeflix
 - [x] Use Notification Pattern for validation
 - [x] Add `CreateCategory` and `ListCategories` usecases
 - [x] Add repository for Category (concrete implementation)
+- [ ] Add env vars
 - [ ] Add APIs
 - [ ] Add e2e tests (API level)
 - [ ] Extend to other entities (Genre, CastMember ? )
 - [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [ ] Decouple validations from entity (serializers)
 - [ ] Revisit inheritance of Exception in Python
-- [ ] How to organize Django + DDD?
+- [x] How to organize Django + DDD?
 
 
 ## Business questions
