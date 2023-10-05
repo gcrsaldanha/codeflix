@@ -27,6 +27,8 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
+- [ ] Review UpdateCategory usecase
+- [ ] id vs UUID
 - [ ] Folder structure – app/domain/infra for each domain? category > app, domain, infra; genre > app, domain, infra...
 - [ ] TestListCategoryView should use the Repository or the use case for setup?
 - [ ] Repository implementation: return created model? E.g.: might have a new ID
