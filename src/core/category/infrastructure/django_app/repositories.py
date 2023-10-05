@@ -40,3 +40,14 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
             is_active=category.is_active,
         )
         category_model.save()
+
+    def update(self, category: Category) -> None:
+        category_model = self._queryset.get(id=category.id)
+        category_model.name = category.name
+        category_model.description = category.description
+        category_model.is_active = category.is_active
+        category_model.save()
+
+    def delete(self, category_id: UUID) -> None:
+        category_model = self._queryset.get(id=category_id)
+        category_model.delete()

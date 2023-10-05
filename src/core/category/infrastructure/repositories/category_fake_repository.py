@@ -24,3 +24,7 @@ class CategoryFakeRepository(CategoryRepositoryInterface):
     def update(self, category: Category) -> None:
         category = self.get_by_id(category.id)
         self._categories.add(category)
+
+    def delete(self, category_id: UUID) -> None:
+        category = self.get_by_id(category_id)
+        self._categories.remove(category)

@@ -21,3 +21,7 @@ class CategoryRepositoryInterface(ABC):
     @abstractmethod
     def update(self, category: Category) -> None:
         pass
+
+    @abstractmethod
+    def delete(self, category_id: UUID) -> None:
+        pass
