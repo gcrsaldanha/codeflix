@@ -6,16 +6,14 @@ Full Cycle – Codeflix
 
 - [x] Use Notification Pattern for validation
 - [x] Add `CreateCategory` and `ListCategories` usecases
-- [ ] Implement a HTTP endpoint to access use cases
-  - [x] Django or FastAPI? (FlaskAPI might be simpler for DDD / Clean Arch approach)
-    - Decided for Django because of the ORM and I am more used to it
-- [ ] Add repository for Category (concrete implementation)
+- [x] Add repository for Category (concrete implementation)
 - [ ] Add APIs
 - [ ] Add e2e tests (API level)
 - [ ] Extend to other entities (Genre, CastMember ? )
-- [ ] See how dependency injection was being made in old codeflix project
+- [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [ ] Decouple validations from entity (serializers)
 - [ ] Revisit inheritance of Exception in Python
+- [ ] How to organize Django + DDD?
 
 
 ## Business questions
@@ -28,6 +26,10 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
+- [ ] Folder structure – app/domain/infra for each domain? category > app, domain, infra; genre > app, domain, infra...
+- [ ] TestListCategoryView should use the Repository or the use case for setup?
+- [ ] Repository implementation: return created model? E.g.: might have a new ID
+- [ ] Should Django model have default PK? Or should we use provided UUID always (in domain layer)?
 - [x] Notification: Entity depending directly on it
   - [x] Also, when should I throw the error? In the [customer](https://github.com/devfullcycle/fc-clean-architecture/blob/main/src/domain/customer/entity/customer.ts) it only throws in the constructor. The `chaneName` calls validate but does not raise any error. Should application do it?
 - [x] Testing category "validation" seems redundant – constructor, updating, etc.

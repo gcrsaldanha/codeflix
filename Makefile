@@ -1,2 +1,2 @@
 test:
-	PYTHONPATH=./src pytest
+	PYTHONPATH=./src DJANGO_SETTINGS_MODULE=django_project.settings pytest
