@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from core.category.application.usecase.category.get_category import GetCategoryRequest, GetCategory
+from core.category.application.usecase.get_category import GetCategoryRequest, GetCategory
 from core.category.domain import Category
 from core.category.infrastructure.repositories.category_fake_repository import CategoryFakeRepository
 

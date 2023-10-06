@@ -4,6 +4,7 @@ from uuid import UUID
 
 from core.category.domain import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
+from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
 
 
 @dataclass
@@ -19,8 +20,8 @@ class UpdateCategoryResponse:
 
 
 class UpdateCategory:
-    def __init__(self, category_repository: CategoryRepositoryInterface = None):
-        self.category_repository = category_repository
+    def __init__(self, category_repository: Optional[CategoryRepositoryInterface] = None):
+        self.category_repository = category_repository or CategoryDjangoRepository()
 
     def execute(self, request: UpdateCategoryRequest) -> UpdateCategoryResponse:
         category = self.category_repository.get_by_id(request.category_id)

@@ -32,7 +32,8 @@ class TestCategoryInit:
 
 
 class TestActivate:
-    def test_when_category_is_inactive_then_activate_it(self):
+    @pytest.mark.parametrize("is_active", [True, False])
+    def test_when_category_is_inactive_then_activate_it(self, is_active):
         category = Category(name="Drama", description="Category for drama", is_active=False)
         category.activate()
         assert category.is_active is True

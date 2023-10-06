@@ -5,7 +5,7 @@ import pytest
 
 from core.category.domain.entity.category import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
-from core.category.application.usecase.category.list_categories import ListCategories, ListCategoriesRequest
+from core.category.application.usecase.list_categories import ListCategories, ListCategoriesRequest
 from core.category.infrastructure.repositories.category_fake_repository import CategoryFakeRepository
 
 
