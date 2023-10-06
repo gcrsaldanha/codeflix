@@ -2,10 +2,13 @@ from uuid import uuid4
 
 import pytest
 
-from core.category.application.usecase.update_category import UpdateCategory, UpdateCategoryRequest, \
-    CategoryDoesNotExist
+from core.category.application.usecase.update_category import (
+    UpdateCategory,
+    UpdateCategoryRequest,
+    CategoryDoesNotExist,
+)
 from core.category.domain import Category
-from core.category.infrastructure.repositories.category_fake_repository import CategoryFakeRepository
+from core.category.infrastructure.mocks.category_fake_repository import CategoryFakeRepository
 
 
 def test_when_category_does_not_exist_then_raises_exception():

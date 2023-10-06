@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from core.category.application.usecase.get_category import GetCategoryRequest, GetCategory
 from core.category.domain import Category
-from core.category.infrastructure.repositories.category_fake_repository import CategoryFakeRepository
+from core.category.infrastructure.mocks.category_fake_repository import CategoryFakeRepository
 
 
 def test_when_category_does_not_exist_then_return_none():

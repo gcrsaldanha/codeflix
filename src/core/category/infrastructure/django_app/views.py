@@ -1,4 +1,4 @@
-from rest_framework import viewsets, serializers
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
@@ -17,24 +17,17 @@ from core.category.application.usecase.update_category import (
     CategoryDoesNotExist,
 )
 from core.category.infrastructure.django_app.serializers import (
-    ListCategoryResponseSerializer,
-    GetCategoryRequestSerializer,
-    GetCategoryResponseSerializer,
     CreateCategoryRequestSerializer,
     CreateCategoryResponseSerializer,
+    DeleteCategoryRequestSerializer,
+    GetCategoryRequestSerializer,
+    GetCategoryResponseSerializer,
+    ListCategoryResponseSerializer,
+    PartialUpdateCategoryRequestSerializer,
+    PartialUpdateCategoryResponseSerializer,
     UpdateCategoryRequestSerializer,
     UpdateCategoryResponseSerializer,
 )
-
-
-class PartialUpdateCategoryRequestSerializer(serializers.Serializer):
-    name = serializers.CharField(required=False)
-    description = serializers.CharField(required=False)
-    category_id = serializers.UUIDField()
-
-
-class DeleteCategoryRequestSerializer(serializers.Serializer):
-    category_id = serializers.UUIDField()
 
 
 class CategoryViewSet(viewsets.ViewSet):
@@ -100,7 +93,7 @@ class CategoryViewSet(viewsets.ViewSet):
         except CategoryDoesNotExist as error:
             return Response(status=HTTP_404_NOT_FOUND, data={"message": str(error)})
         else:
-            response_serializer = UpdateCategoryResponseSerializer(result.category)
+            response_serializer = PartialUpdateCategoryResponseSerializer(result.category)
             return Response(status=HTTP_200_OK, data=response_serializer.data)
 
     def destroy(self, request, pk=None):
