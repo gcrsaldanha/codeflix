@@ -7,13 +7,13 @@ Full Cycle – Codeflix
 - [x] Use Notification Pattern for validation
 - [x] Add `CreateCategory` and `ListCategories` usecases
 - [x] Add repository for Category (concrete implementation)
-- [ ] Add env vars
 - [ ] Add APIs
 - [ ] Add e2e tests (API level)
 - [ ] Extend to other entities (Genre, CastMember ? )
 - [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [ ] Decouple validations from entity (serializers)
 - [ ] Revisit inheritance of Exception in Python
+- [ ] Add env vars
 - [x] How to organize Django + DDD?
 
 
@@ -28,6 +28,8 @@ Full Cycle – Codeflix
 
 ## Technical questions
 - [ ] Review UpdateCategory usecase
+- [ ] Review e2e flow
+- [ ] Should serialization of get / list be different?
 - [ ] id vs UUID
 - [ ] Folder structure – app/domain/infra for each domain? category > app, domain, infra; genre > app, domain, infra...
 - [ ] TestListCategoryView should use the Repository or the use case for setup?

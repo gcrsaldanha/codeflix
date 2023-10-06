@@ -13,13 +13,17 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
         self._queryset = queryset or CategoryModel.objects.all()
 
     def get_by_id(self, category_id: UUID) -> Category:
-        category_model = self._queryset.get(id=category_id)
-        return Category(
-            id=category_model.id,
-            name=category_model.name,
-            description=category_model.description,
-            is_active=category_model.is_active,
-        )
+        try:
+            category_model = self._queryset.get(id=category_id)
+        except CategoryModel.DoesNotExist:
+            return None
+        else:
+            return Category(
+                id=category_model.id,
+                name=category_model.name,
+                description=category_model.description,
+                is_active=category_model.is_active,
+            )
 
     def get_all(self) -> Iterable[Category]:
         yield from (
