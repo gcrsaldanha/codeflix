@@ -59,7 +59,7 @@ class CategoryViewSet(viewsets.ViewSet):
         response_serializer = CreateCategoryResponseSerializer(result)
         return Response(status=HTTP_201_CREATED, data=response_serializer.data)
 
-    def update(self, request, pk=None):
+    def update(self, request, pk=None):  # TODO: activate / deactivate
         request_serializer = UpdateCategoryRequestSerializer(
             data={
                 **request.data.dict(),

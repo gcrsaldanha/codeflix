@@ -21,7 +21,7 @@ class ListCategoriesResponse:  # TODO: Add Presenter pattern
 
 class ListCategories:
     def __init__(self, category_repository: Optional[CategoryRepositoryInterface] = None):
-        self.category_repository = category_repository or CategoryDjangoRepository()  # TODO: dependency on Django ORM
+        self.category_repository = category_repository or CategoryDjangoRepository()
 
     def execute(self, request: ListCategoriesRequest) -> ListCategoriesResponse:
         # TODO: Paginator / Ordering / Filtering

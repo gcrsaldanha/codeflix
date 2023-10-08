@@ -19,6 +19,14 @@ class UpdateCategoryResponse:
     category: Category
 
 
+class UpdateCategoryException(Exception):
+    pass
+
+
+class CategoryDoesNotExist(Exception):
+    pass
+
+
 class UpdateCategory:
     def __init__(self, category_repository: Optional[CategoryRepositoryInterface] = None):
         self.category_repository = category_repository or CategoryDjangoRepository()
@@ -35,11 +43,10 @@ class UpdateCategory:
         if request.description is None:
             request.description = category.description
 
-        category.change_category(request.name, request.description)
+        category.change_category(request.name, request.description)  # TODO: monads / result
+        if category.notification.has_errors():
+            raise UpdateCategoryException(category.notification.errors)
+
         self.category_repository.update(category)
 
         return UpdateCategoryResponse(category)
-
-
-class CategoryDoesNotExist(Exception):
-    pass

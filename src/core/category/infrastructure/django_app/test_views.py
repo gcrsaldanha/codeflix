@@ -97,6 +97,12 @@ class TestUpdateCategoryView:
         )
 
         assert response.status_code == 200
+        assert response.data == {
+            "id": str(category.id),
+            "name": "Category 2",
+            "description": "Category 2 description",
+            "is_active": True,
+        }
 
     def test_when_category_does_not_exist_then_return_404(self) -> None:
         category_id = uuid4()

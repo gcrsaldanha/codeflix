@@ -1,10 +1,6 @@
 from rest_framework import serializers
 
 
-# TODO: Should the response serializer be more tightly coupled to the use case?
-#  E.g.: serializing a Result (from usecase)
-
-
 class CategoryResponseSerializer(serializers.Serializer):
     id = serializers.UUIDField()
     name = serializers.CharField()

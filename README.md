@@ -9,6 +9,10 @@ Full Cycle – Codeflix
 - [x] Add repository for Category (concrete implementation)
 - [x] Add APIs
 - [x] Add e2e tests (API level)
+- [ ] Pagination
+- [ ] Ordering
+- [ ] Filter / Search
+- [ ] Abstract serializers to usecase + generics
 - [ ] Add activate/deactivate APIs
 - [ ] Extend to other entities (Genre, CastMember ? )
 - [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
@@ -29,17 +33,18 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
-- [ ] Soft delete?
-- [ ] Application layer instantiating DjangoRepsitory directly? – Gateway/Factory?
-- [ ] Review usecases
-- [ ] Review e2e flow + tests
-  - [ ] TestListCategoryView should use the Repository or the use case for setup?
-- [ ] Serializer and input/output of usecases
-- [ ] Should serialization of get / list be different? (maybe will need in future)
-- [ ] id vs UUID
-  - [ ] Should Django model have default PK? Or should we use provided UUID always (in domain layer)?
+- [x] Review folder structure
+- [x] Soft delete? – Nope.
+- [x] Application layer instantiating DjangoRepsitory directly? – Gateway/Factory?
+- [x] Review usecases
+- [x] Review e2e flow + tests
+  - [x] TestListCategoryView should use the Repository or the use case for setup?
+- [x] Serializer and input/output of usecases
+- [x] Should serialization of get / list be different? (maybe will need in future)
+- [x] id vs UUID
+  - [x] Should Django model have default PK? Or should we use provided UUID always (in domain layer)?
 - [x] Folder structure – app/domain/infra for each domain? category > app, domain, infra; genre > app, domain, infra...
-- [ ] Repository implementation: return created model? E.g.: might have a new ID
+- [x] Repository implementation: return created model? E.g.: might have a new ID
 - [x] Notification: Entity depending directly on it
   - [x] Also, when should I throw the error? In the [customer](https://github.com/devfullcycle/fc-clean-architecture/blob/main/src/domain/customer/entity/customer.ts) it only throws in the constructor. The `chaneName` calls validate but does not raise any error. Should application do it?
 - [x] Testing category "validation" seems redundant – constructor, updating, etc.
@@ -52,3 +57,8 @@ Full Cycle – Codeflix
 - [x] Should I test `Category.validate` directly or through `Category.__init__` and `Category.change_category`?
   - See `test_category.py::TestValidate` for more details
 - [ ] Where should Validator / UseCaseInterface live? In the domain layer? Similar to repository interface.
+
+
+## References
+- [ ] Monads: https://github.com/dbrattli/OSlash
+- [ ] RxJS
