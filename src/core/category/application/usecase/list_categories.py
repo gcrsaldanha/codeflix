@@ -1,39 +1,42 @@
-import math
-from dataclasses import dataclass, field
-from typing import List, Optional, Type, Dict, Any
+from dataclasses import dataclass
+from dataclasses import dataclass
+from typing import List, Optional, Type
 
 from django.conf import settings
 from django.core.paginator import Paginator as DjangoPaginator
 
-from core._shared.listing.paginator import Paginator
+from core._shared.application.use_case import UseCase, ListInput, ListOutput
 from core._shared.listing.orderer import Order
+from core._shared.listing.paginator import Paginator
 from core.category.domain.entity.category import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
 from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
 
 
 @dataclass
-class ListCategoriesRequest:
-    page: int = 1
-    page_size: int = settings.DEFAULT_PAGE_SIZE
-    filters: Dict[str, Any] = field(default_factory=dict)
-    order_by: Dict[str, Order] = field(default_factory=dict)
-
-    @property
-    def offset(self) -> int:
-        return (self.page - 1) * self.page_size
+class ListCategoriesInput(ListInput):
+    pass
+    # page: int = 1
+    # page_size: int = settings.DEFAULT_PAGE_SIZE
+    # filters: Dict[str, Any] = field(default_factory=dict)
+    # order_by: Dict[str, Order] = field(default_factory=dict)
+    #
+    # @property
+    # def offset(self) -> int:
+    #     return (self.page - 1) * self.page_size
 
 
 @dataclass
-class ListCategoriesResponse:  # TODO: Add Presenter pattern
-    data: List[Category]
-    page: int = 1
-    page_size: int = settings.DEFAULT_PAGE_SIZE
-    next_page: Optional[int] = None
-    total_quantity: int = 0
+class ListCategoriesOutput(ListOutput[Category]):
+    pass
+    # data: List[Category]
+    # page: int = 1
+    # page_size: int = settings.DEFAULT_PAGE_SIZE
+    # next_page: Optional[int] = None
+    # total_quantity: int = 0
 
 
-class ListCategories:
+class ListCategories(UseCase[ListCategoriesInput, ListCategoriesOutput]):
     def __init__(
         self,
         category_repository: Optional[CategoryRepositoryInterface] = None,
@@ -42,7 +45,7 @@ class ListCategories:
         self._category_repository = category_repository or CategoryDjangoRepository()
         self._paginator_class = paginator_class
 
-    def execute(self, request: ListCategoriesRequest) -> ListCategoriesResponse:
+    def execute(self, request: ListCategoriesInput) -> ListCategoriesOutput:
         # If sorting was done in application layer
         # categories = sorted(self._category_repository.get_all(request.filters), key=lambda c: c.name)
 
@@ -58,13 +61,15 @@ class ListCategories:
             categories = sorted(categories, key=lambda c: c.name)
 
         # TODO: abstract this logic, it's repeated in all listing use cases. Will this use the Presenter pattern?
+        # Maybe paginator could be aware of the ListOutput class and do this automatically?
+        # Or the OutputList could define a method for it, being aware of the paginator?
         per_page = min(request.page_size, settings.MAX_PAGE_SIZE)
         paginator = self._paginator_class(object_list=categories, per_page=per_page)
         page = paginator.get_page(number=request.page)
         next_page = page.next_page_number() if page.has_next() else None
         total_quantity = paginator.count
 
-        return ListCategoriesResponse(
+        return ListCategoriesOutput(
             data=list(page.object_list),
             page=page.number,
             page_size=per_page,

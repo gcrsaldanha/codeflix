@@ -11,7 +11,7 @@ from rest_framework.status import (
 from core.category.application.usecase.create_category import CreateCategoryRequest, CreateCategory
 from core.category.application.usecase.delete_category import DeleteCategoryRequest, DeleteCategory
 from core.category.application.usecase.get_category import GetCategory, GetCategoryRequest
-from core.category.application.usecase.list_categories import ListCategories, ListCategoriesRequest
+from core.category.application.usecase.list_categories import ListCategories, ListCategoriesInput
 from core.category.application.usecase.update_category import (
     UpdateCategoryRequest,
     UpdateCategory,
@@ -42,7 +42,7 @@ class CategoryViewSet(viewsets.ViewSet):
             }
         )
         request_serializer.is_valid(raise_exception=True)
-        use_case_request = ListCategoriesRequest(**request_serializer.validated_data)
+        use_case_request = ListCategoriesInput(**request_serializer.validated_data)
 
         result = ListCategories().execute(use_case_request)
         response_serializer = ListCategoryResponseSerializer(result)

@@ -9,8 +9,8 @@ from core.category.domain.entity.category import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
 from core.category.application.usecase.list_categories import (
     ListCategories,
-    ListCategoriesRequest,
-    ListCategoriesResponse,
+    ListCategoriesInput,
+    ListCategoriesOutput,
 )
 from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
 from core.category.infrastructure.mocks.category_fake_repository import CategoryFakeRepository
@@ -49,7 +49,7 @@ def test_list_categories_ordered_by_name_page_one(
     category_romance,
 ):
     use_case = ListCategories(category_repository=repository)
-    paginated_request = ListCategoriesRequest(
+    paginated_request = ListCategoriesInput(
         page=1,
         page_size=2,
     )
@@ -71,7 +71,7 @@ def test_list_categories_ordered_by_name_page_two(
     category_romance,
 ):
     use_case = ListCategories(category_repository=repository)
-    paginated_request = ListCategoriesRequest(
+    paginated_request = ListCategoriesInput(
         page=2,
         page_size=2,
     )
@@ -91,7 +91,7 @@ def test_list_all_categories_ordered_by_name_using_fake_repository():
     fake_repository = CategoryFakeRepository(categories={category_1, category_2})
 
     use_case = ListCategories(category_repository=fake_repository)
-    response = use_case.execute(ListCategoriesRequest())
+    response = use_case.execute(ListCategoriesInput())
 
     assert response.data == [
         category_2,
@@ -128,14 +128,14 @@ class TestListCategories:
         category_action: Category,
         category_romance: Category,
     ):
-        request = ListCategoriesRequest(
+        request = ListCategoriesInput(
             order_by={"name": Order.ASC},
         )
 
         use_case = ListCategories()
         response = use_case.execute(request)
 
-        assert response == ListCategoriesResponse(
+        assert response == ListCategoriesOutput(
             data=[
                 category_action,
                 category_drama,
@@ -152,14 +152,14 @@ class TestListCategories:
         category_action: Category,
         category_romance: Category,
     ) -> None:
-        request = ListCategoriesRequest(
+        request = ListCategoriesInput(
             order_by={"name": Order.DESC},
         )
 
         use_case = ListCategories()
         response = use_case.execute(request)
 
-        assert response == ListCategoriesResponse(
+        assert response == ListCategoriesOutput(
             data=[
                 category_romance,
                 category_drama,
@@ -171,14 +171,14 @@ class TestListCategories:
         )
 
     def test_filter_by_name(self, category_drama: Category) -> None:
-        request = ListCategoriesRequest(
+        request = ListCategoriesInput(
             filters={"name": category_drama.name},
         )
         use_case = ListCategories()
 
         response = use_case.execute(request)
 
-        assert response == ListCategoriesResponse(
+        assert response == ListCategoriesOutput(
             data=[category_drama],
             next_page=None,
             page=1,
@@ -186,14 +186,14 @@ class TestListCategories:
         )
 
     def test_filter_by_description(self, category_drama: Category) -> None:
-        request = ListCategoriesRequest(
+        request = ListCategoriesInput(
             filters={"description": category_drama.description},
         )
         use_case = ListCategories()
 
         response = use_case.execute(request)
 
-        assert response == ListCategoriesResponse(
+        assert response == ListCategoriesOutput(
             data=[category_drama],
             next_page=None,
             page=1,
@@ -204,7 +204,7 @@ class TestListCategories:
         for i in range(150):
             repository.create(Category(name=f"Category {i}", description=f"Category {i} description"))
 
-        request = ListCategoriesRequest(
+        request = ListCategoriesInput(
             page=1,
             page_size=1000,
         )

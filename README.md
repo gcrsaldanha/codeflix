@@ -34,6 +34,7 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
+- [ ] Review generics for UseCase/Input/Output, Generics
 - [ ] Abstracting Paginator logic
 - [ ] Passing Paginator/Sorting/Filtering to repository/database?
 - [ ] Dependency on django.settings
