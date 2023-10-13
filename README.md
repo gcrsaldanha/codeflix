@@ -12,21 +12,20 @@ Full Cycle – Codeflix
 - [x] Pagination
 - [x] Ordering
 - [x] Filter
-- [ ] Search (?)
+- [?] Search 
+- [ ] Add activate/deactivate APIs
 - [ ] Abstract ListCategoriesRequest – pagination, ordering, filtering
 - [ ] Abstract serializers to usecase + generics
-- [ ] Add activate/deactivate APIs
 - [ ] Extend to other entities (Genre, CastMember ? )
-- [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [ ] Decouple validations from entity (serializers)
-- [ ] Revisit inheritance of Exception in Python
-- [ ] Add env vars
+- [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
+- [ ] Revisit Notification pattern (exceptions/errors)
 - [x] How to organize Django + DDD?
-- [ ] Use `result` library for usecases
+- [?] Use `result` library for operations
 
 
 ## Business questions
-- [ ] If the client is responsible for checking for NotificationError, then if it forgets to check, we can create a "bad" entity? E.g.: set `name="""` then save it.
+- [x] If the client is responsible for checking for NotificationError, then if it forgets to check, we can create a "bad" entity? E.g.: set `name="""` then save it.
 - [x] Should I be able to change a `Category` that is not active?
 - [x] Confirm `Category.change_category` should update both `name` and `description`
 - [ ] Should we allow the id to be provided when creating a `Category`?
@@ -38,9 +37,10 @@ Full Cycle – Codeflix
 - [ ] Abstracting Paginator logic
 - [ ] Passing Paginator/Sorting/Filtering to repository/database?
 - [ ] Dependency on django.settings
-- [ ] Find a way to not have the attribute name hardcoded (e.g.: order_by = {"name": Order.ASC})
-- [ ] Implementing fake repository?
-- [ ] How to implement ordering and filtering in the API level?
+- [ ] Is it a problem to have the attribute name hardcoded (e.g.: order_by = {"name": Order.ASC})
+- [ ] Implementing fake repository with ordering, etc.?
+- [ ] Do we need to implement ordering and filtering in the API level? E.g.: ?order_by=abc&name=drama...
+- [ ] Dependency on django.settings – centralize?
 - [x] Review folder structure
 - [x] Soft delete? – Nope.
 - [x] Application layer instantiating DjangoRepsitory directly? – Gateway/Factory?

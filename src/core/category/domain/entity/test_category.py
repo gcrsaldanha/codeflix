@@ -30,6 +30,15 @@ class TestCategoryInit:
         with pytest.raises(NotificationException, match="Category name cannot be longer than 255 characters"):
             Category(name="a" * 256)
 
+    def test_when_description_is_larger_than_1024_characters_then_raise_notification_error(self):
+        with pytest.raises(NotificationException, match="Category description cannot be longer than 1024 characters"):
+            Category(name="Drama", description="a" * 1025)
+
+    def test_when_multiple_errors_then_raise_multiple_notification_error(self):
+        expected_notification_message = "category: Category name cannot be empty,category: Category description cannot be longer than 1024 characters"  # noqa: E501
+        with pytest.raises(NotificationException, match=expected_notification_message):
+            Category(name="", description="a" * 1025)
+
 
 class TestActivate:
     @pytest.mark.parametrize("is_active", [True, False])

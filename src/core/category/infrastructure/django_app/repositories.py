@@ -1,13 +1,13 @@
-from typing import Optional, Sequence, Dict
+from typing import Optional, Sequence, Dict, Any
 from uuid import UUID
 
 from django.db.models import QuerySet
 
-from core._shared.pagination.paginator import Order
+from core._shared.listing.orderer import Order
 from core.category.domain import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
 from core.category.infrastructure.django_app.models import Category as CategoryModel
-from django_project import settings
+from django.conf import settings
 
 
 class CategoryDjangoRepository(CategoryRepositoryInterface):
@@ -29,11 +29,12 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
 
     def get_all(
         self,
-        filters: Optional[dict] = None,
+        filters: Optional[Dict[str, Any]] = None,
         order_by: Optional[Dict[str, Order]] = None,
         limit: int = settings.DEFAULT_PAGE_SIZE,
         offset: int = 0,
     ) -> Sequence[Category]:
+        # TODO: needed to return a sequence so I can have "len"? Or add count method to repository interface?
         filters = filters or {}
         order_by = order_by or {}
         order_by = (f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items())
@@ -45,7 +46,9 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
                 description=category_model.description,
                 is_active=category_model.is_active,
             )
-            for category_model in (self._queryset.filter(**filters).order_by(*order_by)[offset:(offset + limit)])
+            for category_model in (self._queryset.filter(**filters).order_by(*order_by))
+            # If I apply offset, pagination does not work as expected
+            # for category_model in (self._queryset.filter(**filters).order_by(*order_by)[offset:(offset + limit)])
         ]
         # yield from (
         #     Category(

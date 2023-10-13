@@ -2,6 +2,7 @@ from typing import Dict
 from uuid import uuid4
 
 import pytest
+from django.conf import settings
 from rest_framework.test import APIClient
 
 from core.category.domain import Category
@@ -63,6 +64,7 @@ class TestListCategoriesView:
             ],
             "next_page": None,
             "page": 1,
+            "page_size": settings.DEFAULT_PAGE_SIZE,
             "total_quantity": 2,
         }
 
@@ -85,6 +87,7 @@ class TestListCategoriesView:
             ],
             "next_page": 2,
             "page": 1,
+            "page_size": 1,
             "total_quantity": 2,
         }
         assert response.status_code == 200

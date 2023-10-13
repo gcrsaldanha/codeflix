@@ -30,7 +30,7 @@ from core.category.infrastructure.django_app.serializers import (
     UpdateCategoryResponseSerializer,
     ListCategoriesRequestSerializer,
 )
-from django_project import settings
+from django.conf import settings
 
 
 class CategoryViewSet(viewsets.ViewSet):

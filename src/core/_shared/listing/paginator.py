@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import enum
 from abc import abstractmethod, ABC
 from collections.abc import Sequence
-from typing import TypeVar, Generic, Any, NewType
+from typing import TypeVar, Generic
 
-from django_project import settings
+from django.conf import settings
 
 T = TypeVar("T")
 
@@ -70,8 +69,3 @@ class Page(Generic[T], Sequence[T], ABC):
         :return: The 1-indexed number of the next page.
         """
         pass
-
-
-class Order(enum.Enum):
-    ASC = "ASC"
-    DESC = "DESC"

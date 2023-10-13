@@ -1,10 +1,10 @@
 from typing import Set, Optional, Sequence, Dict, Any
 from uuid import UUID
 
-from core._shared.pagination.paginator import Order
+from core._shared.listing.orderer import Order
 from core.category.domain import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
-from django_project import settings
+from django.conf import settings
 
 
 class CategoryFakeRepository(CategoryRepositoryInterface):
@@ -21,7 +21,7 @@ class CategoryFakeRepository(CategoryRepositoryInterface):
         limit: int = settings.DEFAULT_PAGE_SIZE,
         offset: int = 0,
     ) -> Sequence[Category]:
-        # TODO: should I implement full ordering?
+        # TODO: is it okay that this repository does not use filters and order_by 100%?
         filtered_categories = filter(
             lambda category: (getattr(category, field) == value for field, value in filters.items()),
             self._categories,

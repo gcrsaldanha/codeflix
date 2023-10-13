@@ -4,11 +4,14 @@ from uuid import uuid4
 
 import pytest
 
-from core._shared.pagination.paginator import Order
+from core._shared.listing.orderer import Order
 from core.category.domain.entity.category import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
-from core.category.application.usecase.list_categories import ListCategories, ListCategoriesRequest, \
-    ListCategoriesResponse
+from core.category.application.usecase.list_categories import (
+    ListCategories,
+    ListCategoriesRequest,
+    ListCategoriesResponse,
+)
 from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
 from core.category.infrastructure.mocks.category_fake_repository import CategoryFakeRepository
 
@@ -196,3 +199,20 @@ class TestListCategories:
             page=1,
             total_quantity=1,
         )
+
+    def test_paginate_very_large_request(self, repository: CategoryRepositoryInterface) -> None:
+        for i in range(150):
+            repository.create(Category(name=f"Category {i}", description=f"Category {i} description"))
+
+        request = ListCategoriesRequest(
+            page=1,
+            page_size=1000,
+        )
+        use_case = ListCategories()
+
+        response = use_case.execute(request)
+
+        assert len(response.data) == 100
+        assert response.next_page == 2
+        assert response.page == 1
+        assert response.total_quantity >= 150

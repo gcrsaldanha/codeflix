@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Iterable, Optional, Sequence, Dict
+from typing import Optional, Sequence, Dict
 from uuid import UUID
 
-from core._shared.pagination.paginator import Order
+from django.conf import settings
+
+from core._shared.listing.orderer import Order
 from core.category.domain.entity.category import Category
-from django_project import settings
 
 
 class CategoryRepositoryInterface(ABC):

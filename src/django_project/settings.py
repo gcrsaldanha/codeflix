@@ -126,4 +126,5 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-DEFAULT_PAGE_SIZE = 5
+DEFAULT_PAGE_SIZE = 50
+MAX_PAGE_SIZE = 100

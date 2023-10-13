@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from django_project import settings
+from django.conf import settings
 
 
 class CategoryResponseSerializer(serializers.Serializer):
@@ -18,6 +18,7 @@ class ListCategoriesRequestSerializer(serializers.Serializer):
 class ListCategoryResponseSerializer(serializers.Serializer):
     data = CategoryResponseSerializer(many=True)
     page = serializers.IntegerField()
+    page_size = serializers.IntegerField()
     next_page = serializers.IntegerField(allow_null=True, default=None)
     total_quantity = serializers.IntegerField(default=0)
 
