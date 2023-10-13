@@ -1,4 +1,5 @@
 from uuid import UUID, uuid4
+
 import pytest
 
 from core._shared.notification.notification_error import NotificationException
