@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Sequence, Dict
 from uuid import UUID
 
+from core._shared.pagination.paginator import Order
 from core.category.domain.entity.category import Category
+from django_project import settings
 
 
 class CategoryRepositoryInterface(ABC):
@@ -15,7 +17,13 @@ class CategoryRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def get_all(self) -> Iterable[Category]:
+    def get_all(
+        self,
+        filters: Optional[Dict] = None,
+        order_by: Optional[Dict[str, Order]] = None,
+        limit: int = settings.DEFAULT_PAGE_SIZE,
+        offset: int = 0,
+    ) -> Sequence[Category]:
         pass
 
     @abstractmethod

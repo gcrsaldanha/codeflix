@@ -9,9 +9,11 @@ Full Cycle – Codeflix
 - [x] Add repository for Category (concrete implementation)
 - [x] Add APIs
 - [x] Add e2e tests (API level)
-- [ ] Pagination
-- [ ] Ordering
-- [ ] Filter / Search
+- [x] Pagination
+- [x] Ordering
+- [x] Filter
+- [ ] Search (?)
+- [ ] Abstract ListCategoriesRequest – pagination, ordering, filtering
 - [ ] Abstract serializers to usecase + generics
 - [ ] Add activate/deactivate APIs
 - [ ] Extend to other entities (Genre, CastMember ? )
@@ -33,6 +35,12 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
+- [ ] Abstracting Paginator logic
+- [ ] Passing Paginator/Sorting/Filtering to repository/database?
+- [ ] Dependency on django.settings
+- [ ] Find a way to not have the attribute name hardcoded (e.g.: order_by = {"name": Order.ASC})
+- [ ] Implementing fake repository?
+- [ ] How to implement ordering and filtering in the API level?
 - [x] Review folder structure
 - [x] Soft delete? – Nope.
 - [x] Application layer instantiating DjangoRepsitory directly? – Gateway/Factory?

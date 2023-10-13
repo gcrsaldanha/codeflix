@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
@@ -27,14 +28,24 @@ from core.category.infrastructure.django_app.serializers import (
     PartialUpdateCategoryResponseSerializer,
     UpdateCategoryRequestSerializer,
     UpdateCategoryResponseSerializer,
+    ListCategoriesRequestSerializer,
 )
+from django_project import settings
 
 
 class CategoryViewSet(viewsets.ViewSet):
-    def list(self, request):
-        list_categories = ListCategories().execute(ListCategoriesRequest())
+    def list(self, request: Request):
+        request_serializer = ListCategoriesRequestSerializer(
+            data={
+                "page": request.query_params.get("page", 1),
+                "page_size": request.query_params.get("page_size", settings.DEFAULT_PAGE_SIZE),
+            }
+        )
+        request_serializer.is_valid(raise_exception=True)
+        use_case_request = ListCategoriesRequest(**request_serializer.validated_data)
 
-        response_serializer = ListCategoryResponseSerializer(list_categories.categories, many=True)
+        result = ListCategories().execute(use_case_request)
+        response_serializer = ListCategoryResponseSerializer(result)
         return Response(status=HTTP_200_OK, data=response_serializer.data)
 
     def retrieve(self, request, pk=None):

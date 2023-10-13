@@ -2,7 +2,7 @@ export PYTHONPATH := ./src:./src/django_project/:$(PYTHONPATH)
 export DJANGO_SETTINGS_MODULE := django_project.settings
 
 test:
-	pytest
+	pytest -s -v
 
 migrate:
 	python -m manage migrate

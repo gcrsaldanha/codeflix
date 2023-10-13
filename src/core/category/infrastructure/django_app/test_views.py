@@ -22,27 +22,72 @@ def category() -> Category:
     )
 
 
+@pytest.fixture(scope="function")
+def category_2() -> Category:
+    return Category(
+        id=uuid4(),
+        name="Category 2",
+        description="Category 2 description",
+        is_active=True,
+    )
+
+
 @pytest.fixture(scope="function", autouse=True)
-def category_repository(category: Category) -> CategoryRepositoryInterface:
+def category_repository(category: Category, category_2: Category) -> CategoryRepositoryInterface:
     category_repository = CategoryDjangoRepository()
     category_repository.create(category)
+    category_repository.create(category_2)
     return category_repository
 
 
 class TestListCategoriesView:
-    def test_list_categories(self, category: Category) -> None:
+    def test_list_categories(self, category: Category, category_2: Category) -> None:
         api_client = APIClient()
         response = api_client.get("/api/categories/")
 
         assert response.status_code == 200
-        assert response.data == [
-            {
-                "id": str(category.id),
-                "name": "Category 1",
-                "description": "Category 1 description",
-                "is_active": True,
-            }
-        ]
+        assert response.data == {
+            "data": [
+                {
+                    "id": str(category.id),
+                    "name": "Category 1",
+                    "description": "Category 1 description",
+                    "is_active": True,
+                },
+                {
+                    "id": str(category_2.id),
+                    "name": "Category 2",
+                    "description": "Category 2 description",
+                    "is_active": True,
+                },
+            ],
+            "next_page": None,
+            "page": 1,
+            "total_quantity": 2,
+        }
+
+    def test_list_categories_with_pagination(
+        self,
+        category: Category,
+        category_2: Category,
+    ) -> None:
+        api_client = APIClient()
+        response = api_client.get("/api/categories/?page=1&page_size=1")
+
+        assert response.data == {
+            "data": [
+                {
+                    "id": str(category.id),
+                    "name": "Category 1",
+                    "description": "Category 1 description",
+                    "is_active": True,
+                },
+            ],
+            "next_page": 2,
+            "page": 1,
+            "total_quantity": 2,
+        }
+        assert response.status_code == 200
 
 
 class TestGetCategoryView:

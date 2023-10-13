@@ -1,18 +1,20 @@
-from typing import Iterable, Optional
+from typing import Optional, Sequence, Dict
 from uuid import UUID
 
 from django.db.models import QuerySet
 
-from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
+from core._shared.pagination.paginator import Order
 from core.category.domain import Category
+from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
 from core.category.infrastructure.django_app.models import Category as CategoryModel
+from django_project import settings
 
 
 class CategoryDjangoRepository(CategoryRepositoryInterface):
     def __init__(self, queryset: Optional[QuerySet[CategoryModel]] = None):
         self._queryset = queryset or CategoryModel.objects.all()
 
-    def get_by_id(self, category_id: UUID) -> Category:
+    def get_by_id(self, category_id: UUID) -> Optional[Category]:
         try:
             category_model = self._queryset.get(id=category_id)
         except CategoryModel.DoesNotExist:
@@ -25,16 +27,35 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
                 is_active=category_model.is_active,
             )
 
-    def get_all(self) -> Iterable[Category]:
-        yield from (
+    def get_all(
+        self,
+        filters: Optional[dict] = None,
+        order_by: Optional[Dict[str, Order]] = None,
+        limit: int = settings.DEFAULT_PAGE_SIZE,
+        offset: int = 0,
+    ) -> Sequence[Category]:
+        filters = filters or {}
+        order_by = order_by or {}
+        order_by = (f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items())
+
+        return [
             Category(
                 id=category_model.id,
                 name=category_model.name,
                 description=category_model.description,
                 is_active=category_model.is_active,
             )
-            for category_model in self._queryset.all()
-        )
+            for category_model in (self._queryset.filter(**filters).order_by(*order_by)[offset:(offset + limit)])
+        ]
+        # yield from (
+        #     Category(
+        #         id=category_model.id,
+        #         name=category_model.name,
+        #         description=category_model.description,
+        #         is_active=category_model.is_active,
+        #     )
+        #     for category_model in (self._queryset.filter(**filters).order_by(order_by)[offset:(offset + limit)])
+        # )
 
     def create(self, category: Category) -> None:
         category_model = CategoryModel(

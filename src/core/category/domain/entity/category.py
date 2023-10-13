@@ -5,6 +5,7 @@ from uuid import UUID, uuid4
 from core._shared.entity.abstract_entity import AbstractEntity
 from core._shared.notification.notification_error import NotificationError, NotificationException
 from core.category.domain.entity.category_interface import CategoryInterface
+from core.category.infrastructure.django_app.models import Category
 
 
 class Category(CategoryInterface, AbstractEntity):
@@ -32,6 +33,14 @@ class Category(CategoryInterface, AbstractEntity):
 
     def __repr__(self):
         return f"<Category {self.name}>"
+
+    def __eq__(self, other: Category) -> bool:
+        if not isinstance(other, Category):
+            return NotImplemented
+        return self.id == other.id
+
+    def __hash__(self) -> int:
+        return hash(self.id)
 
     def _validate(self) -> None:  # TODO: decouple validation from Entity with a Validator
         if not self.name:

@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from django_project import settings
+
 
 class CategoryResponseSerializer(serializers.Serializer):
     id = serializers.UUIDField()
@@ -8,11 +10,16 @@ class CategoryResponseSerializer(serializers.Serializer):
     is_active = serializers.BooleanField()
 
 
+class ListCategoriesRequestSerializer(serializers.Serializer):
+    page = serializers.IntegerField(default=1)
+    page_size = serializers.IntegerField(default=settings.DEFAULT_PAGE_SIZE)
+
+
 class ListCategoryResponseSerializer(serializers.Serializer):
-    id = serializers.UUIDField()
-    name = serializers.CharField()
-    description = serializers.CharField()
-    is_active = serializers.BooleanField()
+    data = CategoryResponseSerializer(many=True)
+    page = serializers.IntegerField()
+    next_page = serializers.IntegerField(allow_null=True, default=None)
+    total_quantity = serializers.IntegerField(default=0)
 
 
 class GetCategoryRequestSerializer(serializers.Serializer):
