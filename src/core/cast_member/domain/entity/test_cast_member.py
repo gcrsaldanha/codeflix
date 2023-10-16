@@ -50,4 +50,4 @@ class TestChangeCastMember:
         cast_member = CastMember(name="John Doe", cast_member_type=CastMemberType.ACTOR)
         cast_member.change_cast_member(name="", cast_member_type=CastMemberType.DIRECTOR)
         assert cast_member.notification.has_errors()
-        assert cast_member.notification.messages() == "cast_member: CastMember name cannot be empty"
+        assert cast_member.notification.messages() == "cast_member: name cannot be empty"

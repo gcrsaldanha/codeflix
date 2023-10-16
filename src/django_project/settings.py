@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_extensions",
     "core.category.infrastructure.django_app",
+    "core.cast_member.infrastructure.cast_member_app",
 ]
 
 MIDDLEWARE = [

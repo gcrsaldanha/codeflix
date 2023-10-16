@@ -21,14 +21,16 @@ class CategoryFakeRepository(CategoryRepositoryInterface):
         limit: int = settings.DEFAULT_PAGE_SIZE,
         offset: int = 0,
     ) -> Sequence[Category]:
-        filtered_categories = filter(
-            lambda category: (getattr(category, field) == value for field, value in filters.items()),
+        filtered_entities = filter(
+            lambda entity: all(getattr(entity, field) == value for field, value in filters.items()),
             self._categories,
         )
-        ordered_categories = sorted(
-            filtered_categories, key=lambda category: [getattr(category, field) for field, order in order_by.items()]
+        ordered_entities = sorted(
+            filtered_entities,
+            key=lambda entity: [getattr(entity, field) for field, order in order_by.items()],
         )
-        return ordered_categories[offset:(offset + limit)]
+        return ordered_entities[offset:(offset + limit)]
+
 
     def get_by_id(self, category_id: UUID) -> Optional[Category]:
         return next(

@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from core.cast_member.infrastructure.cast_member_app.views import CastMemberViewSet
 from core.category.infrastructure.django_app.views import CategoryViewSet
 
 router = DefaultRouter()
 router.register(r'api/categories', CategoryViewSet, basename='category')
+router.register(r'api/cast_members', CastMemberViewSet, basename='cast_member')
 
 urlpatterns = [
     path("admin/", admin.site.urls),

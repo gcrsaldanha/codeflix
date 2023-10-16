@@ -45,19 +45,15 @@ class CastMember(CastMemberInterface, AbstractEntity):
     def __hash__(self) -> int:
         return hash(self.id)
 
-    def _validate(self) -> None:  # TODO: decouple validation from Entity with a Validator
+    def _validate(self) -> None:
         if not self.name:
-            self.notification.add_error(
-                NotificationError(message="name cannot be empty", context="cast_member")
-            )
+            self.notification.add_error(NotificationError(message="name cannot be empty", context="cast_member"))
         if len(self.name) > 255:
             self.notification.add_error(
                 NotificationError(message="name cannot be longer than 255 characters", context="cast_member")
             )
         if not self.cast_member_type:
-            self.notification.add_error(
-                NotificationError(message="type cannot be empty", context="cast_member")
-            )
+            self.notification.add_error(NotificationError(message="type cannot be empty", context="cast_member"))
 
     def change_cast_member(self, name: str, cast_member_type: CastMemberType) -> None:
         logging.info(f"Changing CastMember {self.name} to {name} wih type {cast_member_type}")
