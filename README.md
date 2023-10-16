@@ -13,9 +13,9 @@ Full Cycle – Codeflix
 - [x] Ordering
 - [x] Filter
 - [?] Search 
-- [ ] Add activate/deactivate APIs
-- [ ] Abstract ListCategoriesRequest – pagination, ordering, filtering
-- [ ] Abstract serializers to usecase + generics
+- [x] Add activate/deactivate APIs
+- [x] Abstract ListCategoriesRequest – pagination, ordering, filtering
+- [x] Abstract serializers to usecase + generics
 - [ ] Extend to other entities (Genre, CastMember ? )
 - [ ] Decouple validations from entity (serializers)
 - [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
