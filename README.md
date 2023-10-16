@@ -12,16 +12,16 @@ Full Cycle – Codeflix
 - [x] Pagination
 - [x] Ordering
 - [x] Filter
-- [?] Search 
 - [x] Add activate/deactivate APIs
 - [x] Abstract ListCategoriesRequest – pagination, ordering, filtering
 - [x] Abstract serializers to usecase + generics
-- [ ] Extend to other entities (Genre, CastMember ? )
+- [ ] Extend to other entities (Genre, CastMember )
 - [ ] Decouple validations from entity (serializers)
 - [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [ ] Revisit Notification pattern (exceptions/errors)
 - [x] How to organize Django + DDD?
 - [?] Use `result` library for operations
+- [?] Search 
 
 
 ## Business questions
@@ -34,7 +34,7 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
-- [ ] What should "page_size" return?
+- [x] What should "page_size" return?
 - [x] Review generics for UseCase/Input/Output, Generics
 - [x] Abstracting Paginator logic
 - [x] Passing Paginator/Sorting/Filtering to repository/database?
