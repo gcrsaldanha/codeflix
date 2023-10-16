@@ -35,7 +35,7 @@ class Category(CategoryInterface, AbstractEntity):
 
     def __eq__(self, other: "Category") -> bool:
         if not isinstance(other, Category):
-            return NotImplemented
+            return False
         return self.id == other.id
 
     def __hash__(self) -> int:
