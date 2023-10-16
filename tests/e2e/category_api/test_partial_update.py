@@ -19,10 +19,12 @@ class TestPartiallyUpdateCategoryView:
         assert (response.status_code, response.data) == (
             200,
             {
-                "id": str(category.id),
-                "name": "Category 2",
-                "description": "Category 1 description",
-                "is_active": True,
+                "data": {
+                    "id": str(category.id),
+                    "name": "Category 2",
+                    "description": "Category 1 description",
+                    "is_active": True,
+                }
             },
         )
 
@@ -37,10 +39,12 @@ class TestPartiallyUpdateCategoryView:
         assert (response.status_code, response.data) == (
             200,
             {
-                "id": str(category.id),
-                "name": "Category 1",
-                "description": "Category 2 description",
-                "is_active": True,
+                "data": {
+                    "id": str(category.id),
+                    "name": "Category 1",
+                    "description": "Category 2 description",
+                    "is_active": True,
+                }
             },
         )
 
@@ -55,10 +59,12 @@ class TestPartiallyUpdateCategoryView:
 
         assert response.status_code == 200
         assert response.data == {
-            "id": str(category.id),
-            "name": "Category 2",
-            "description": "Category 2 description",
-            "is_active": True,
+            "data": {
+                "id": str(category.id),
+                "name": "Category 2",
+                "description": "Category 2 description",
+                "is_active": True,
+            }
         }
 
     def test_when_category_does_not_exist_then_return_404(self) -> None:

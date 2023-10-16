@@ -1,5 +1,7 @@
 import pytest
+from django.conf import settings
 
+from core._shared.application.use_case import ListOutputMeta
 from core._shared.listing.orderer import Order
 from core.category.application.usecase.list_categories import ListCategoriesInput, ListCategories, ListCategoriesOutput
 from core.category.domain import Category
@@ -9,7 +11,6 @@ from core.category.infrastructure.django_app.repositories import CategoryDjangoR
 
 @pytest.mark.django_db
 class TestListCategories:
-    # TODO: this is mostly testing the pagination/ordering/filtering using a real database.
     @pytest.fixture
     def category_drama(self) -> Category:
         return Category(name="Drama", description="Category for drama")
@@ -49,9 +50,12 @@ class TestListCategories:
                 category_drama,
                 category_romance,
             ],
-            next_page=None,
-            page=1,
-            total_quantity=3,
+            meta=ListOutputMeta(
+                next_page=None,
+                page=1,
+                page_size=3,
+                total_quantity=3,
+            ),
         )
 
     def test_order_by_name_desc(
@@ -73,9 +77,12 @@ class TestListCategories:
                 category_drama,
                 category_action,
             ],
-            next_page=None,
-            page=1,
-            total_quantity=3,
+            meta=ListOutputMeta(
+                next_page=None,
+                page=1,
+                page_size=3,
+                total_quantity=3,
+            ),
         )
 
     def test_filter_by_name(self, category_drama: Category) -> None:
@@ -88,9 +95,12 @@ class TestListCategories:
 
         assert response == ListCategoriesOutput(
             data=[category_drama],
-            next_page=None,
-            page=1,
-            total_quantity=1,
+            meta=ListOutputMeta(
+                next_page=None,
+                page=1,
+                page_size=1,
+                total_quantity=1,
+            ),
         )
 
     def test_filter_by_description(self, category_drama: Category) -> None:
@@ -103,9 +113,12 @@ class TestListCategories:
 
         assert response == ListCategoriesOutput(
             data=[category_drama],
-            next_page=None,
-            page=1,
-            total_quantity=1,
+            meta=ListOutputMeta(
+                next_page=None,
+                page=1,
+                page_size=1,
+                total_quantity=1,
+            ),
         )
 
     def test_paginate_very_large_request(self, repository: CategoryRepositoryInterface) -> None:
@@ -120,7 +133,10 @@ class TestListCategories:
 
         response = use_case.execute(request)
 
-        assert len(response.data) == 100
-        assert response.next_page == 2
-        assert response.page == 1
-        assert response.total_quantity >= 150
+        assert len(response.data) == settings.MAX_PAGE_SIZE
+        assert response.meta == ListOutputMeta(
+            next_page=2,
+            page=1,
+            page_size=settings.MAX_PAGE_SIZE,
+            total_quantity=153,
+        )

@@ -21,7 +21,6 @@ class CategoryFakeRepository(CategoryRepositoryInterface):
         limit: int = settings.DEFAULT_PAGE_SIZE,
         offset: int = 0,
     ) -> Sequence[Category]:
-        # TODO: is it okay that this repository does not use filters and order_by 100%?
         filtered_categories = filter(
             lambda category: (getattr(category, field) == value for field, value in filters.items()),
             self._categories,

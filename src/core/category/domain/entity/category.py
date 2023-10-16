@@ -72,6 +72,14 @@ class Category(CategoryInterface, AbstractEntity):
         self.__description = description
         self._validate()
 
+    def activate(self) -> None:
+        self.__is_active = True
+        self._validate()
+
+    def deacivate(self) -> None:
+        self.__is_active = False
+        self._validate()
+
     @property
     def is_active(self) -> bool:
         return self.__is_active

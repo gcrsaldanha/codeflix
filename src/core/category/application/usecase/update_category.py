@@ -12,6 +12,7 @@ class UpdateCategoryRequest:  # TODO: Add validation so we do not even reach the
     category_id: UUID
     name: Optional[str] = None
     description: Optional[str] = None
+    is_active: Optional[bool] = None
 
 
 @dataclass
@@ -42,6 +43,15 @@ class UpdateCategory:
 
         if request.description is None:
             request.description = category.description
+
+        # Activating/deactivating category as a "separate" action on the domain object
+        if request.is_active is None:
+            request.is_active = category.is_active
+        else:
+            if request.is_active:
+                category.activate()
+            else:
+                category.deactivate()
 
         category.change_category(request.name, request.description)  # TODO: monads / result
         if category.notification.has_errors():

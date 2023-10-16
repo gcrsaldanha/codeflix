@@ -6,7 +6,6 @@ from rest_framework.test import APIClient
 from core.category.domain import Category
 
 
-
 @pytest.mark.django_db
 class TestGetCategoryView:
     def test_return_category(self, category: Category) -> None:
@@ -14,10 +13,12 @@ class TestGetCategoryView:
 
         assert response.status_code == 200
         assert response.data == {
-            "id": str(category.id),
-            "name": "Category 1",
-            "description": "Category 1 description",
-            "is_active": True,
+            "data": {
+                "id": str(category.id),
+                "name": "Category 1",
+                "description": "Category 1 description",
+                "is_active": True,
+            },
         }
 
     def test_return_404_if_category_does_not_exist(self) -> None:

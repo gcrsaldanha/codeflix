@@ -39,6 +39,7 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
         order_by = order_by or {}
         order_by = (f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items())
 
+        # TODO: use regex
         return [
             Category(
                 id=category_model.id,

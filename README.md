@@ -34,14 +34,15 @@ Full Cycle – Codeflix
 
 
 ## Technical questions
-- [ ] Review generics for UseCase/Input/Output, Generics
-- [ ] Abstracting Paginator logic
-- [ ] Passing Paginator/Sorting/Filtering to repository/database?
-- [ ] Dependency on django.settings
-- [ ] Is it a problem to have the attribute name hardcoded (e.g.: order_by = {"name": Order.ASC})
-- [ ] Implementing fake repository with ordering, etc.?
-- [ ] Do we need to implement ordering and filtering in the API level? E.g.: ?order_by=abc&name=drama...
-- [ ] Dependency on django.settings – centralize?
+- [ ] What should "page_size" return?
+- [x] Review generics for UseCase/Input/Output, Generics
+- [x] Abstracting Paginator logic
+- [x] Passing Paginator/Sorting/Filtering to repository/database?
+- [x] Dependency on django.settings
+- [x] Is it a problem to have the attribute name hardcoded (e.g.: order_by = {"name": Order.ASC})
+- [x] Implementing fake repository with ordering, etc.?
+- [x] Do we need to implement ordering and filtering in the API level? E.g.: ?page=1&page_size=3&order=-name => {"name": Order.DESC}
+- [x] Dependency on django.settings – centralize?
 - [x] Review folder structure
 - [x] Soft delete? – Nope.
 - [x] Application layer instantiating DjangoRepsitory directly? – Gateway/Factory?

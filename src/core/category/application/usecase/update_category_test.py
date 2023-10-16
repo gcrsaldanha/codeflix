@@ -58,3 +58,25 @@ def test_update_category_name_and_description():
     assert response.category.id == existing_category.id
     assert response.category.name == "Comedy"
     assert response.category.description == "Category for comedy"
+
+
+def test_can_activate_category():
+    existing_category = Category(id=uuid4(), name="Drama", description="Category for drama", is_active=False)
+    category_repository = CategoryFakeRepository(categories={existing_category})
+
+    request = UpdateCategoryRequest(category_id=existing_category.id, is_active=True)
+    use_case = UpdateCategory(category_repository=category_repository)
+    response = use_case.execute(request)
+
+    assert response.category.is_active is True
+
+
+def test_can_deactivate_category():
+    existing_category = Category(id=uuid4(), name="Drama", description="Category for drama", is_active=True)
+    category_repository = CategoryFakeRepository(categories={existing_category})
+
+    request = UpdateCategoryRequest(category_id=existing_category.id, is_active=False)
+    use_case = UpdateCategory(category_repository=category_repository)
+    response = use_case.execute(request)
+
+    assert response.category.is_active is False

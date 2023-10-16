@@ -27,10 +27,12 @@ class TestListCategoriesView:
                     "is_active": True,
                 },
             ],
-            "next_page": None,
-            "page": 1,
-            "page_size": settings.DEFAULT_PAGE_SIZE,
-            "total_quantity": 2,
+            "meta": {
+                "next_page": None,
+                "page": 1,
+                "page_size": 2,
+                "total_quantity": 2,
+            },
         }
 
     def test_list_categories_with_pagination(
@@ -50,9 +52,11 @@ class TestListCategoriesView:
                     "is_active": True,
                 },
             ],
-            "next_page": 2,
-            "page": 1,
-            "page_size": 1,
-            "total_quantity": 2,
+            "meta": {
+                "next_page": 2,
+                "page": 1,
+                "page_size": 1,
+                "total_quantity": 2,
+            },
         }
         assert response.status_code == 200

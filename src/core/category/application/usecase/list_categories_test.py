@@ -29,12 +29,13 @@ def category_romance() -> Category:
 
 @pytest.fixture
 def repository(category_drama, category_action, category_romance) -> CategoryRepositoryInterface:
-    repo = create_autospec(CategoryRepositoryInterface)
-    repo.get_all.return_value = [
-        category_drama,
-        category_action,
-        category_romance,
-    ]
+    repo = CategoryFakeRepository(
+        categories={
+            category_drama,
+            category_action,
+            category_romance,
+        }
+    )
     return repo
 
 
@@ -55,9 +56,9 @@ def test_list_categories_ordered_by_name_page_one(
         category_action,
         category_drama,
     ]
-    assert response.next_page == 2
-    assert response.page == 1
-    assert response.total_quantity == 3
+    assert response.meta.next_page == 2
+    assert response.meta.page == 1
+    assert response.meta.total_quantity == 3
 
 
 def test_list_categories_ordered_by_name_page_two(
@@ -75,21 +76,6 @@ def test_list_categories_ordered_by_name_page_two(
     assert response.data == [
         category_romance,
     ]
-    assert response.next_page is None
-    assert response.page == 2
-    assert response.total_quantity == 3
-
-
-def test_list_all_categories_ordered_by_name_using_fake_repository():
-    category_1 = Category(name="Drama", description="Category for drama")
-    category_2 = Category(name="Action", description="Category for action")
-
-    fake_repository = CategoryFakeRepository(categories={category_1, category_2})
-
-    use_case = ListCategories(category_repository=fake_repository)
-    response = use_case.execute(ListCategoriesInput())
-
-    assert response.data == [
-        category_2,
-        category_1,
-    ]
+    assert response.meta.next_page is None
+    assert response.meta.page == 2
+    assert response.meta.total_quantity == 3

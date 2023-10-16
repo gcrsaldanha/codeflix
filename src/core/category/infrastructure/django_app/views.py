@@ -23,7 +23,7 @@ from core.category.infrastructure.django_app.serializers import (
     DeleteCategoryRequestSerializer,
     GetCategoryRequestSerializer,
     GetCategoryResponseSerializer,
-    ListCategoryResponseSerializer,
+    ListCategoriesResponseSerializer,
     PartialUpdateCategoryRequestSerializer,
     PartialUpdateCategoryResponseSerializer,
     UpdateCategoryRequestSerializer,
@@ -45,7 +45,7 @@ class CategoryViewSet(viewsets.ViewSet):
         use_case_request = ListCategoriesInput(**request_serializer.validated_data)
 
         result = ListCategories().execute(use_case_request)
-        response_serializer = ListCategoryResponseSerializer(result)
+        response_serializer = ListCategoriesResponseSerializer(result)
         return Response(status=HTTP_200_OK, data=response_serializer.data)
 
     def retrieve(self, request, pk=None):
@@ -57,7 +57,7 @@ class CategoryViewSet(viewsets.ViewSet):
         if result.category is None:
             return Response(status=HTTP_404_NOT_FOUND, data={"message": "Category not found"})
 
-        response_serializer = GetCategoryResponseSerializer(result.category)
+        response_serializer = GetCategoryResponseSerializer(result)
         return Response(status=HTTP_200_OK, data=response_serializer.data)
 
     def create(self, request):
@@ -70,7 +70,7 @@ class CategoryViewSet(viewsets.ViewSet):
         response_serializer = CreateCategoryResponseSerializer(result)
         return Response(status=HTTP_201_CREATED, data=response_serializer.data)
 
-    def update(self, request, pk=None):  # TODO: activate / deactivate
+    def update(self, request, pk=None):
         request_serializer = UpdateCategoryRequestSerializer(
             data={
                 **request.data.dict(),
@@ -85,7 +85,7 @@ class CategoryViewSet(viewsets.ViewSet):
         except CategoryDoesNotExist as error:
             return Response(status=HTTP_404_NOT_FOUND, data={"message": str(error)})
         else:
-            response_serializer = UpdateCategoryResponseSerializer(result.category)
+            response_serializer = UpdateCategoryResponseSerializer(result)
             return Response(status=HTTP_200_OK, data=response_serializer.data)
 
     def partial_update(self, request, pk=None):
@@ -104,7 +104,7 @@ class CategoryViewSet(viewsets.ViewSet):
         except CategoryDoesNotExist as error:
             return Response(status=HTTP_404_NOT_FOUND, data={"message": str(error)})
         else:
-            response_serializer = PartialUpdateCategoryResponseSerializer(result.category)
+            response_serializer = PartialUpdateCategoryResponseSerializer(result)
             return Response(status=HTTP_200_OK, data=response_serializer.data)
 
     def destroy(self, request, pk=None):
