@@ -15,8 +15,8 @@ from core.category.application.usecase.list_categories import ListCategories, Li
 from core.category.application.usecase.update_category import (
     UpdateCategoryRequest,
     UpdateCategory,
-    CategoryDoesNotExist,
 )
+from core.category.application.usecase.exceptions import CategoryDoesNotExist
 from core.category.infrastructure.django_app.serializers import (
     CreateCategoryRequestSerializer,
     CreateCategoryResponseSerializer,

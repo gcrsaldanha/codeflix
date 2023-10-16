@@ -5,8 +5,8 @@ import pytest
 from core.category.application.usecase.update_category import (
     UpdateCategory,
     UpdateCategoryRequest,
-    CategoryDoesNotExist,
 )
+from core.category.application.usecase.exceptions import CategoryDoesNotExist
 from core.category.domain import Category
 from core.category.infrastructure.mocks.category_fake_repository import CategoryFakeRepository
 

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 from uuid import UUID
 
+from core.category.application.usecase.exceptions import CategoryDoesNotExist, UpdateCategoryException
 from core.category.domain import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
 from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
@@ -18,14 +19,6 @@ class UpdateCategoryRequest:  # TODO: Add validation so we do not even reach the
 @dataclass
 class UpdateCategoryResponse:
     category: Category
-
-
-class UpdateCategoryException(Exception):
-    pass
-
-
-class CategoryDoesNotExist(Exception):
-    pass
 
 
 class UpdateCategory:
@@ -45,6 +38,7 @@ class UpdateCategory:
             request.description = category.description
 
         # Activating/deactivating category as a "separate" action on the domain object
+        # If we want, we could extract this to another usecaes
         if request.is_active is None:
             request.is_active = category.is_active
         else:

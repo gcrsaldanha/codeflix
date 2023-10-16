@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 from uuid import UUID
 
-from core.category.application.usecase.update_category import CategoryDoesNotExist
+from core.category.application.usecase.exceptions import CategoryDoesNotExist
 from core.category.domain import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
 from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository

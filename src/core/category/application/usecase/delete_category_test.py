@@ -3,7 +3,7 @@ from uuid import uuid4
 import pytest
 
 from core.category.application.usecase.delete_category import DeleteCategoryRequest, DeleteCategory
-from core.category.application.usecase.update_category import CategoryDoesNotExist
+from core.category.application.usecase.exceptions import CategoryDoesNotExist
 from core.category.domain import Category
 from core.category.infrastructure.mocks.category_fake_repository import CategoryFakeRepository
 
