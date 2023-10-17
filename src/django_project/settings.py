@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "core.category.infrastructure.django_app",
     "core.cast_member.infrastructure.cast_member_app",
+    "core.genre.infrastructure.genre_django_app",
 ]
 
 MIDDLEWARE = [

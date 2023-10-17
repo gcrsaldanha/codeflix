@@ -15,25 +15,32 @@ Full Cycle – Codeflix
 - [x] Add activate/deactivate APIs
 - [x] Abstract ListCategoriesRequest – pagination, ordering, filtering
 - [x] Abstract serializers to usecase + generics
-- [ ] Extend to other entities (Genre, CastMember )
+- [x] Extend to other entities (Genre, CastMember )
 - [ ] Decouple validations from entity (serializers)
-- [ ] See how dependency injection was being made in old codeflix project (queryset/repository)
+- [x] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [ ] Revisit Notification pattern (exceptions/errors)
 - [x] How to organize Django + DDD?
-- [?] Use `result` library for operations
-- [?] Search 
+- [ ] Use `result` library for operations
+- [ ] Search with Regex vs Filter
 
 
 ## Business questions
 - [x] If the client is responsible for checking for NotificationError, then if it forgets to check, we can create a "bad" entity? E.g.: set `name="""` then save it.
 - [x] Should I be able to change a `Category` that is not active?
 - [x] Confirm `Category.change_category` should update both `name` and `description`
-- [ ] Should we allow the id to be provided when creating a `Category`?
-  - [ ] If so, should we validate it? uuid
+- [x] Should we allow the id to be provided when creating a `Category`?
+  - [x] If so, should we validate it? uuid
 - [x] Confirm CategoryCreation logic usecase vs entity (should usecase create an inactive category?)
+- [x] `Genre` has a list of `Categories` (one-to-many?) – thus, `Category` should have a `Genre` FK / external UUID?
+- [ ] What should happen if genre/category is deleted?
+  - prevent deleting used Category, allow deleting Genre
+- [x] What are the business rules for `Genre`? Are `Category` required?
+- [x] What if user adds same category?
+- [x] What if user tries to remove category not present? (I made this idempotent)
 
 
 ## Technical questions
+- [ ] Do I always call validate on every method that mutates my entity? See `add_category`
 - [x] What should "page_size" return?
 - [x] Review generics for UseCase/Input/Output, Generics
 - [x] Abstracting Paginator logic
@@ -67,6 +74,13 @@ Full Cycle – Codeflix
 - [x] Should I test `Category.validate` directly or through `Category.__init__` and `Category.change_category`?
   - See `test_category.py::TestValidate` for more details
 - [ ] Where should Validator / UseCaseInterface live? In the domain layer? Similar to repository interface.
+
+
+## Meeting 2023-10-17
+- 
+
+
+
 
 
 ## References
