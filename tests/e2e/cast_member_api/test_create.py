@@ -11,7 +11,7 @@ class TestCreateCastMemberView:
             "/api/cast_members/",
             data={
                 "name": "John Doe",
-                "cast_member_type": CastMemberType.ACTOR,
+                "cast_member_type": "ACTOR",
             },
         )
 
