@@ -1,12 +1,16 @@
-from typing import Optional, Sequence, Dict, Any
+from typing import Optional, Sequence, Dict, Any, List
 from uuid import UUID
 
+from django.db import transaction
 from django.db.models import QuerySet
 
 from core._shared.listing.orderer import Order
 from core.genre.domain import Genre
 from core.genre.domain.repository.genre_repository_interface import GenreRepositoryInterface
-from core.genre.infrastructure.genre_django_app.models import Genre as GenreModel
+from core.genre.infrastructure.genre_django_app.models import (
+    Genre as GenreModel,
+    GenreCategory as GenreCategoryModel,
+)
 from django.conf import settings
 
 
@@ -49,19 +53,28 @@ class GenreDjangoRepository(GenreRepositoryInterface):
         ]
 
     def create(self, genre: Genre) -> None:
-        genre_model = GenreModel(
-            id=genre.id,
-            name=genre.name,
-            is_active=genre.is_active,
-            categories=genre.categories,
-        )
-        genre_model.save()
+        with transaction.atomic():
+            genre_model = GenreModel(
+                id=genre.id,
+                name=genre.name,
+                is_active=genre.is_active,
+            )
+            genre_model.save()
+
+            genre_categories: List[GenreCategoryModel] = [
+                GenreCategoryModel(
+                    genre=genre_model,
+                    category_id=category.id
+                ) for category in genre.categories
+            ]
+            GenreCategoryModel.objects.bulk_create(genre_categories)
+
+
 
     def update(self, genre: Genre) -> None:
         genre_model = self._queryset.get(id=genre.id)
         genre_model.name = genre.name
         genre_model.is_active = genre.is_active
-        # genre_model.categories = genre.categories  # TODO: fix this
         genre_model.save()
 
     def delete(self, genre_id: UUID) -> None:

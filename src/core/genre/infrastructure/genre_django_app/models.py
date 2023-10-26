@@ -1,9 +1,6 @@
-from typing import List
 from uuid import uuid4
 
 from django.db import models
-
-from core.category.domain import Category
 
 
 class Genre(models.Model):
@@ -12,7 +9,7 @@ class Genre(models.Model):
     description = models.TextField()
     is_active = models.BooleanField(default=True)
 
-    @property
-    def categories(self) -> List[Category]:
-        # TODO: this is a placeholder
-        return [Category(name="Category 1", description="Category 1 description", is_active=True)]
+
+class GenreCategory(models.Model):
+    genre = models.ForeignKey("genre_django_app.Genre", on_delete=models.CASCADE)
+    category = models.ForeignKey("django_app.Category", on_delete=models.CASCADE)

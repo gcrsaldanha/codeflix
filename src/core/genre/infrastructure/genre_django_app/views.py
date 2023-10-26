@@ -9,13 +9,13 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND,
 )
 
-from core.genre.application.usecase.create_genre import CreateGenreRequest, CreateGenre
-from core.genre.application.usecase.delete_genre import DeleteGenreRequest, DeleteGenre
-from core.genre.application.usecase.get_genre import GetGenre, GetGenreRequest
-from core.genre.application.usecase.list_genres import ListGenres, ListGenresRequest
-from core.genre.application.usecase.update_genre import UpdateGenreRequest, UpdateGenre
+from core.genre.application.usecase.create_genre_use_case import CreateGenreInput, CreateGenreUseCase
+from core.genre.application.usecase.delete_genre_use_case import DeleteGenreInput, DeleteGenreUseCase
+from core.genre.application.usecase.get_genre_use_case import GetGenreUseCase, GetGenreInput
+from core.genre.application.usecase.list_genres_use_case import ListGenresUseCase, ListGenresInput
+from core.genre.application.usecase.update_genre_use_case import UpdateGenreInput, UpdateGenreUseCase
 from core.genre.application.usecase.exceptions import GenreDoesNotExist
-from core.genre.infrastructure.django_app.serializers import (
+from core.genre.infrastructure.genre_django_app.serializers import (
     CreateGenreRequestSerializer,
     CreateGenreResponseSerializer,
     DeleteGenreRequestSerializer,

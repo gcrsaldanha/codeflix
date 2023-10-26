@@ -2,63 +2,62 @@ from uuid import uuid4
 
 import pytest
 
-from core.cast_member.application.usecase.update_cast_member_use_case import (
-    UpdateCastMemberUseCase,
-    UpdateCastMemberInput,
+from core.genre.application.usecase.update_genre_use_case import (
+    UpdateGenreUseCase,
+    UpdateGenreInput,
 )
-from core.cast_member.application.usecase.exceptions import CastMemberDoesNotExist
-from core.cast_member.domain import CastMember, CastMemberType
-from core.cast_member.infrastructure.mocks.cast_member_fake_repository import CastMemberFakeRepository
+from core.genre.application.usecase.exceptions import GenreDoesNotExist
+from core.genre.domain import Genre
+from core.genre.infrastructure.mocks.genre_fake_repository import GenreFakeRepository
 
 
-def test_when_cast_member_does_not_exist_then_raises_exception():
-    request = UpdateCastMemberInput(cast_member_id=uuid4(), name="John Doe", cast_member_type=CastMemberType.ACTOR)
-    repository = CastMemberFakeRepository(cast_members=set())
+def test_when_genre_does_not_exist_then_raises_exception():
+    request = UpdateGenreInput(genre_id=uuid4(), name="Romance")
+    repository = GenreFakeRepository(genres=set())
 
-    use_case = UpdateCastMemberUseCase(repository=repository)
+    use_case = UpdateGenreUseCase(repository=repository)
 
-    with pytest.raises(CastMemberDoesNotExist, match=f"CastMember with id {request.cast_member_id} does not exist"):
+    with pytest.raises(GenreDoesNotExist, match=f"Genre with id {request.genre_id} does not exist"):
         use_case.execute(request)
 
 
-def test_update_cast_member_name_only():
-    existing_cast_member = CastMember(id=uuid4(), name="John Doe", cast_member_type=CastMemberType.ACTOR)
-    repository = CastMemberFakeRepository(cast_members={existing_cast_member})
+def test_update_genre_name_only():
+    existing_genre = Genre(id=uuid4(), name="Romance")
+    repository = GenreFakeRepository(genres={existing_genre})
 
-    request = UpdateCastMemberInput(cast_member_id=existing_cast_member.id, name="John Doe 2")
-    use_case = UpdateCastMemberUseCase(repository=repository)
+    request = UpdateGenreInput(genre_id=existing_genre.id, name="Drama")
+    use_case = UpdateGenreUseCase(repository=repository)
     response = use_case.execute(request)
 
-    assert response.cast_member.id == existing_cast_member.id
-    assert response.cast_member.name == "John Doe 2"
-    assert response.cast_member.cast_member_type == CastMemberType.ACTOR
+    assert response.genre.id == existing_genre.id
+    assert response.genre.name == "Drama"
 
 
-def test_update_cast_member_type_only():
-    existing_cast_member = CastMember(id=uuid4(), name="John Doe", cast_member_type=CastMemberType.ACTOR)
-    repository = CastMemberFakeRepository(cast_members={existing_cast_member})
+def test_update_genre_description_only():
+    existing_genre = Genre(id=uuid4(), name="Romance", description="Romance description")
+    repository = GenreFakeRepository(genres={existing_genre})
 
-    request = UpdateCastMemberInput(cast_member_id=existing_cast_member.id, cast_member_type=CastMemberType.DIRECTOR)
-    use_case = UpdateCastMemberUseCase(repository=repository)
+    request = UpdateGenreInput(genre_id=existing_genre.id, description="Drama description")
+    use_case = UpdateGenreUseCase(repository=repository)
     response = use_case.execute(request)
 
-    assert response.cast_member.id == existing_cast_member.id
-    assert response.cast_member.name == "John Doe"
-    assert response.cast_member.cast_member_type == CastMemberType.DIRECTOR
+    assert response.genre.id == existing_genre.id
+    assert response.genre.name == "Romance"
+    assert response.genre.description == "Drama description"
 
 
-def test_update_cast_member_name_and_type():
-    existing_cast_member = CastMember(id=uuid4(), name="John Doe", cast_member_type=CastMemberType.ACTOR)
-    repository = CastMemberFakeRepository(cast_members={existing_cast_member})
+def test_update_genre_name_and_description():
+    existing_genre = Genre(id=uuid4(), name="John Doe", genre_description=GenreType.ACTOR)
+    repository = GenreFakeRepository(genres={existing_genre})
 
-    request = UpdateCastMemberInput(
-        cast_member_id=existing_cast_member.id,
+    request = UpdateGenreInput(
+        genre_id=existing_genre.id,
         name="John Doe 2",
-        cast_member_type=CastMemberType.DIRECTOR,
+        genre_description=GenreType.DIRECTOR,
     )
-    use_case = UpdateCastMemberUseCase(repository=repository)
+    use_case = UpdateGenreUseCase(repository=repository)
     response = use_case.execute(request)
 
-    assert response.cast_member.id == existing_cast_member.id
-    assert response.cast_member.name == "John Doe 2"
-    assert response.cast_member.cast_member_type == CastMemberType.DIRECTOR
+    assert response.genre.id == existing_genre.id
+    assert response.genre.name == "John Doe 2"
+    assert response.genre.genre_description == GenreType.DIRECTOR

@@ -51,8 +51,8 @@ def genre_comedy(category_1, category_2) -> Genre:
 
 
 @pytest.fixture(scope="function", autouse=True)
-def genre_repository(genre_romance: Genre, genre_drama: Genre) -> GenreRepositoryInterface:
+def genre_repository(genre_romance: Genre, genre_comedy: Genre) -> GenreRepositoryInterface:
     repository = GenreDjangoRepository()
     repository.create(genre_romance)
-    repository.create(genre_drama)
+    repository.create(genre_comedy)
     return repository

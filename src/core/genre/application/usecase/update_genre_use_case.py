@@ -3,44 +3,56 @@ from typing import Optional
 from uuid import UUID
 
 from core._shared.application.use_case import UseCase
-from core.cast_member.application.usecase.exceptions import UpdateCastMemberException, CastMemberDoesNotExist
-from core.cast_member.domain import CastMemberType, CastMember
-from core.cast_member.domain.repository.cast_member_repository_interface import CastMemberRepositoryInterface
-from core.cast_member.infrastructure.cast_member_app.repositories import CastMemberDjangoRepository
+from core.genre.application.usecase.exceptions import UpdateGenreException, GenreDoesNotExist
+from core.genre.domain import Genre
+from core.genre.domain.repository.genre_repository_interface import GenreRepositoryInterface
+from core.genre.infrastructure.genre_django_app.repositories import GenreDjangoRepository
 
 
 @dataclass
-class UpdateCastMemberInput:
-    cast_member_id: UUID
+class UpdateGenreInput:
+    genre_id: UUID
     name: Optional[str] = None
-    cast_member_type: Optional[CastMemberType] = None
+    description: Optional[str] = None
+    is_active: Optional[bool] = None
+    # TODO: updating categories of a gender as a separate usecase?
 
 
 @dataclass
-class UpdateCastMemberOutput:
-    cast_member: CastMember
+class UpdateGenreOutput:
+    genre: Genre
 
 
-class UpdateCastMemberUseCase(UseCase[UpdateCastMemberInput, UpdateCastMemberOutput]):
-    def __init__(self, repository: Optional[CastMemberRepositoryInterface] = None):
-        self._repository = repository or CastMemberDjangoRepository()
+class UpdateGenreUseCase(UseCase[UpdateGenreInput, UpdateGenreOutput]):
+    def __init__(self, repository: Optional[GenreRepositoryInterface] = None):
+        self._repository = repository or GenreDjangoRepository()
 
-    def execute(self, request: UpdateCastMemberInput) -> UpdateCastMemberOutput:
-        cast_member = self._repository.get_by_id(request.cast_member_id)
-        if cast_member is None:
-            raise CastMemberDoesNotExist(f"CastMember with id {request.cast_member_id} does not exist")
+    def execute(self, request: UpdateGenreInput) -> UpdateGenreOutput:
+        genre = self._repository.get_by_id(request.genre_id)
+        if genre is None:
+            raise GenreDoesNotExist(f"Genre with id {request.genre_id} does not exist")
 
         # Only update fields that are provided
         if request.name is None:
-            request.name = cast_member.name
+            request.name = genre.name
 
-        if request.cast_member_type is None:
-            request.cast_member_type = cast_member.cast_member_type
+        if request.description is None:
+            request.description = genre.description
 
-        cast_member.change_cast_member(request.name, request.cast_member_type)
-        if cast_member.notification.has_errors():
-            raise UpdateCastMemberException(cast_member.notification.errors)
+        # Activating/deactivating genre as a "separate" action on the domain object
+        # If we want, we could extract this to another usecase
+        if request.is_active is None:
+            request.is_active = genre.is_active
+        else:
+            if request.is_active:
+                genre.activate()
+            else:
+                genre.deactivate()
 
-        self._repository.update(cast_member)
+        genre.change_genre(request.name, request.description)  # TODO: monads / result
+        if genre.notification.has_errors():
+            raise UpdateGenreException(genre.notification.errors)
 
-        return UpdateCastMemberOutput(cast_member)
+        self._repository.update(genre)
+
+        return UpdateGenreOutput(genre)
