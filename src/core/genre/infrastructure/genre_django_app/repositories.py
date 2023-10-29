@@ -20,16 +20,19 @@ class GenreDjangoRepository(GenreRepositoryInterface):
 
     def get_by_id(self, genre_id: UUID) -> Optional[Genre]:
         try:
-            genre_model = self._queryset.get(id=genre_id)
+            genre = GenreModel.objects.prefetch_related("related_categories").get(id=genre_id)
         except GenreModel.DoesNotExist:
             return None
-        else:
-            return Genre(
-                id=genre_model.id,
-                name=genre_model.name,
-                is_active=genre_model.is_active,
-                categories=genre_model.categories,
-            )
+
+        category_ids = {gc.category_id for gc in genre.related_categories.all()}
+
+        return Genre(
+            id=genre.id,
+            name=genre.name,
+            description=genre.description,
+            is_active=genre.is_active,
+            categories=category_ids,
+        )
 
     def get_all(
         self,
@@ -42,14 +45,21 @@ class GenreDjangoRepository(GenreRepositoryInterface):
         order_by = order_by or {}
         order_by = (f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items())
 
+        genres = (
+            self._queryset.filter(**filters)
+            .order_by(*order_by)
+            .prefetch_related("related_categories")  # [offset : offset + limit] - not adding limit yet to repo
+        )
+
         return [
             Genre(
                 id=genre_model.id,
                 name=genre_model.name,
+                description=genre_model.description,
                 is_active=genre_model.is_active,
-                categories=genre_model.categories,
+                categories={gc.category_id for gc in genre_model.related_categories.all()},
             )
-            for genre_model in (self._queryset.filter(**filters).order_by(*order_by))
+            for genre_model in genres
         ]
 
     def create(self, genre: Genre) -> None:
@@ -57,23 +67,20 @@ class GenreDjangoRepository(GenreRepositoryInterface):
             genre_model = GenreModel(
                 id=genre.id,
                 name=genre.name,
+                description=genre.description,
                 is_active=genre.is_active,
             )
             genre_model.save()
 
             genre_categories: List[GenreCategoryModel] = [
-                GenreCategoryModel(
-                    genre=genre_model,
-                    category_id=category.id
-                ) for category in genre.categories
+                GenreCategoryModel(genre=genre_model, category_id=category_id) for category_id in genre.categories
             ]
             GenreCategoryModel.objects.bulk_create(genre_categories)
-
-
 
     def update(self, genre: Genre) -> None:
         genre_model = self._queryset.get(id=genre.id)
         genre_model.name = genre.name
+        genre_model.description = genre.description
         genre_model.is_active = genre.is_active
         genre_model.save()
 

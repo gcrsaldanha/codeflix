@@ -18,8 +18,8 @@ def test_when_genre_does_not_exist_then_return_none():
 
 def test_get_genre_by_id():
     category = Category(id=uuid4(), name="Drama", description="Category for drama")
-    genre = Genre(id=uuid4(), name="Drama", description="Genre for drama", categories=[])
-    genre_2 = Genre(id=uuid4(), name="Action", description="Genre for action", categories=[category])
+    genre = Genre(id=uuid4(), name="Drama", description="Genre for drama", categories=set())
+    genre_2 = Genre(id=uuid4(), name="Action", description="Genre for action", categories={ category })
     genre_repository = GenreFakeRepository(genres={genre, genre_2})
 
     use_case = GetGenreUseCase(repository=genre_repository)
@@ -27,4 +27,4 @@ def test_get_genre_by_id():
     response = use_case.execute(request)
 
     assert response.genre == genre_2
-    assert response.genre.categories == [category]
+    assert response.genre.categories == { category }

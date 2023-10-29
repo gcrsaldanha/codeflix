@@ -3,16 +3,16 @@ from uuid import uuid4
 import pytest
 from rest_framework.test import APIClient
 
-from core.cast_member.domain import CastMember
+from core.genre.domain import Genre
 
 
 @pytest.mark.django_db
-class TestPartiallyUpdateCastMemberView:
-    def test_update_only_cast_member_name(self, actor: CastMember) -> None:
+class TestPartiallyUpdateGenreView:
+    def test_update_only_genre_name(self, genre_romance: Genre) -> None:
         response = APIClient().patch(
-            f"/api/cast_members/{str(actor.id)}/",
+            f"/api/genres/{str(genre_romance.id)}/",
             {
-                "name": "Johnny Doe",
+                "name": "Another Genre",
             },
         )
 
@@ -20,18 +20,20 @@ class TestPartiallyUpdateCastMemberView:
             200,
             {
                 "data": {
-                    "id": str(actor.id),
-                    "name": "Johnny Doe",
-                    "cast_member_type": "ACTOR",
+                    "id": str(genre_romance.id),
+                    "name": "Another Genre",
+                    "description": genre_romance.description,
+                    "is_active": genre_romance.is_active,
+                    "categories": [str(category) for category in genre_romance.categories],
                 }
             },
         )
 
-    def test_update_only_cast_member_type(self, actor: CastMember) -> None:
+    def test_update_only_genre_description(self, genre_romance: Genre) -> None:
         response = APIClient().patch(
-            f"/api/cast_members/{str(actor.id)}/",
+            f"/api/genres/{str(genre_romance.id)}/",
             {
-                "cast_member_type": "DIRECTOR",
+                "description": "New description",
             },
         )
 
@@ -39,40 +41,44 @@ class TestPartiallyUpdateCastMemberView:
             200,
             {
                 "data": {
-                    "id": str(actor.id),
-                    "name": actor.name,
-                    "cast_member_type": "DIRECTOR",
-                },
+                    "id": str(genre_romance.id),
+                    "name": genre_romance.name,
+                    "description": "New description",
+                    "is_active": genre_romance.is_active,
+                    "categories": [str(category) for category in genre_romance.categories],
+                }
             },
         )
 
-    def test_update_name_and_type(self, actor: CastMember) -> None:
+    def test_update_name_and_description(self, genre_romance: Genre) -> None:
         response = APIClient().patch(
-            f"/api/cast_members/{str(actor.id)}/",
-            {
-                "name": "Jonny Doe",
-                "cast_member_type": "DIRECTOR",
+            f"/api/genres/{str(genre_romance.id)}/",
+            data={
+                "name": "Another Genre",
+                "description": "New description",
             },
         )
 
         assert response.status_code == 200
         assert response.data == {
             "data": {
-                "id": str(actor.id),
-                "name": "Jonny Doe",
-                "cast_member_type": "DIRECTOR",
+                "id": str(genre_romance.id),
+                "name": "Another Genre",
+                "description": "New description",
+                "is_active": genre_romance.is_active,
+                "categories": [str(category) for category in genre_romance.categories],
             }
         }
 
-    def test_when_cast_member_does_not_exist_then_return_404(self) -> None:
-        cast_member_id = uuid4()
+    def test_when_genre_does_not_exist_then_return_404(self) -> None:
+        genre_id = uuid4()
 
         response = APIClient().patch(
-            f"/api/cast_members/{str(cast_member_id)}/",
+            f"/api/genres/{str(genre_id)}/",
             {
-                "name": "Johnny Doe",
+                "name": "Another Genre",
             },
         )
 
         assert response.status_code == 404
-        assert response.data == {"message": f"CastMember with id {cast_member_id} does not exist"}
+        assert response.data == {"message": f"Genre with id {genre_id} does not exist"}

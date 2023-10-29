@@ -17,7 +17,7 @@ class TestCreateGenreUseCase:
 
     def test_create_genre_with_valid_data(self, repository: GenreRepositoryInterface):
         category = Category(name="Category 1", description="Category 1 description")
-        request = CreateGenreInput(name="Genre 1", description="Genre 1 description", categories=[category])
+        request = CreateGenreInput(name="Genre 1", description="Genre 1 description", categories={category})
         use_case = CreateGenreUseCase(repository=repository)
 
         response = use_case.execute(request)

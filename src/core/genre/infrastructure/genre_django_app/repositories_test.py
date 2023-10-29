@@ -2,5 +2,5 @@ import pytest
 
 
 @pytest.mark.skip(reason="Not implemented")
-def test_cast_member_repository_dummy():
+def test_genre_repository_dummy():
     assert False

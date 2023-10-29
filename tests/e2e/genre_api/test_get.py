@@ -17,7 +17,8 @@ class TestGetGenreView:
                 "id": str(genre_romance.id),
                 "name": genre_romance.name,
                 "description": genre_romance.description,
-                "categories": [str(category.id) for category in genre_romance.categories]
+                "is_active": genre_romance.is_active,
+                "categories": [str(category) for category in genre_romance.categories],
             },
         }
 

@@ -17,13 +17,15 @@ class TestListGenresView:
                     "id": str(genre_comedy.id),
                     "name": genre_comedy.name,
                     "description": genre_comedy.description,
-                    "categories": [str(category.id) for category in genre_comedy.categories],
+                    "is_active": genre_comedy.is_active,
+                    "categories": [str(category_id) for category_id in genre_comedy.categories],
                 },
                 {
                     "id": str(genre_romance.id),
                     "name": genre_romance.name,
                     "description": genre_romance.description,
-                    "categories": [str(category.id) for category in genre_romance.categories],
+                    "is_active": genre_romance.is_active,
+                    "categories": [str(category_id) for category_id in genre_romance.categories],
                 }
             ],
             "meta": {
@@ -48,7 +50,8 @@ class TestListGenresView:
                     "id": str(genre_comedy.id),
                     "name": genre_comedy.name,
                     "description": genre_comedy.description,
-                    "categories": [str(category.id) for category in genre_comedy.categories],
+                    "is_active": genre_comedy.is_active,
+                    "categories": [str(category_id) for category_id in genre_comedy.categories],
                 },
             ],
             "meta": {

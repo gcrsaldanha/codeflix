@@ -25,12 +25,14 @@ Full Cycle – Codeflix
 
 
 ## Business questions
-- [ ] Confirm Gender/Category relationship
+- [ ] Confirm Genre/Category relationship
 - [ ] Review create genre with categories use case.
   - Should GenreRepository be aware of categories?
 - [ ] What should happen if genre/category is deleted?
   - prevent deleting used Category, allow deleting Genre
-- [ ] Updating a Genre –> should we allow updating the categories? Or should it be a separate add/remove category?
+- [ ] Updating a Genre –> should we allow updating the categories? Or should it be a separate add/remove category usecase?
+- [ ] Review GenreRepository: TODO - relationship with GenreCategory (get_by_id)
+- [ ] Fetching the related Category Ids should be in the repository or in the Django Model? 
 - [x] If the client is responsible for checking for NotificationError, then if it forgets to check, we can create a "bad" entity? E.g.: set `name="""` then save it.
 - [x] Should I be able to change a `Category` that is not active?
 - [x] Confirm `Category.change_category` should update both `name` and `description`

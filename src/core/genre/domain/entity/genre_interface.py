@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Set
 from uuid import UUID
-
-from core.category.domain.entity.category import Category
 
 
 class GenreInterface(ABC):
@@ -35,7 +33,7 @@ class GenreInterface(ABC):
 
     @property
     @abstractmethod
-    def categories(self) -> List[Category]:
+    def categories(self) -> Set[UUID]:
         pass
 
     @property
@@ -44,9 +42,9 @@ class GenreInterface(ABC):
         pass
 
     @abstractmethod
-    def add_category(self, category: Category) -> None:
+    def add_category(self, category: UUID) -> None:
         pass
 
     @abstractmethod
-    def remove_category(self, category: Category) -> None:
+    def remove_category(self, category: UUID) -> None:
         pass

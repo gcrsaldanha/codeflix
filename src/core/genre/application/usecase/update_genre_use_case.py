@@ -15,7 +15,7 @@ class UpdateGenreInput:
     name: Optional[str] = None
     description: Optional[str] = None
     is_active: Optional[bool] = None
-    # TODO: updating categories of a gender as a separate usecase?
+    # TODO: updating categories of a genre as a separate usecase?
 
 
 @dataclass

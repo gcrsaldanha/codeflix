@@ -47,17 +47,41 @@ def test_update_genre_description_only():
 
 
 def test_update_genre_name_and_description():
-    existing_genre = Genre(id=uuid4(), name="John Doe", genre_description=GenreType.ACTOR)
+    existing_genre = Genre(id=uuid4(), name="Romance", description="Romance description")
     repository = GenreFakeRepository(genres={existing_genre})
 
     request = UpdateGenreInput(
         genre_id=existing_genre.id,
-        name="John Doe 2",
-        genre_description=GenreType.DIRECTOR,
+        name="Drama",
+        description="Drama description",
     )
     use_case = UpdateGenreUseCase(repository=repository)
     response = use_case.execute(request)
 
     assert response.genre.id == existing_genre.id
-    assert response.genre.name == "John Doe 2"
-    assert response.genre.genre_description == GenreType.DIRECTOR
+    assert response.genre.name == "Drama"
+    assert response.genre.description == "Drama description"
+
+
+def test_activate_genre():
+    existing_genre = Genre(id=uuid4(), name="Romance", description="Romance description", is_active=False)
+    repository = GenreFakeRepository(genres={existing_genre})
+
+    request = UpdateGenreInput(genre_id=existing_genre.id, is_active=True)
+    use_case = UpdateGenreUseCase(repository=repository)
+    response = use_case.execute(request)
+
+    assert response.genre.id == existing_genre.id
+    assert response.genre.is_active is True
+
+
+def test_deactivate_genre():
+    existing_genre = Genre(id=uuid4(), name="Romance", description="Romance description", is_active=True)
+    repository = GenreFakeRepository(genres={existing_genre})
+
+    request = UpdateGenreInput(genre_id=existing_genre.id, is_active=False)
+    use_case = UpdateGenreUseCase(repository=repository)
+    response = use_case.execute(request)
+
+    assert response.genre.id == existing_genre.id
+    assert response.genre.is_active is False

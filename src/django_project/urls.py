@@ -20,10 +20,12 @@ from rest_framework.routers import DefaultRouter
 
 from core.cast_member.infrastructure.cast_member_app.views import CastMemberViewSet
 from core.category.infrastructure.django_app.views import CategoryViewSet
+from core.genre.infrastructure.genre_django_app.views import GenreViewSet
 
 router = DefaultRouter()
-router.register(r'api/categories', CategoryViewSet, basename='category')
-router.register(r'api/cast_members', CastMemberViewSet, basename='cast_member')
+router.register(r"api/categories", CategoryViewSet, basename="category")
+router.register(r"api/cast_members", CastMemberViewSet, basename="cast_member")
+router.register(r"api/genres", GenreViewSet, basename="genre")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

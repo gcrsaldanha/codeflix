@@ -9,7 +9,7 @@ from core.genre.infrastructure.genre_django_app.repositories import GenreDjangoR
 
 
 @pytest.fixture(scope="function")
-def category_1() -> Category:
+def category_drama() -> Category:
     return Category(
         name="Drama",
         description="Category for drama",
@@ -17,7 +17,7 @@ def category_1() -> Category:
 
 
 @pytest.fixture(scope="function")
-def category_2() -> Category:
+def category_action() -> Category:
     return Category(
         name="Action",
         description="Category for action",
@@ -25,28 +25,28 @@ def category_2() -> Category:
 
 
 @pytest.fixture(scope="function", autouse=True)
-def category_repository(category_1: Category, category_2: Category) -> CategoryRepositoryInterface:
+def category_repository(category_drama: Category, category_action: Category) -> CategoryRepositoryInterface:
     repository = CategoryDjangoRepository()
-    repository.create(category_1)
-    repository.create(category_2)
+    repository.create(category_drama)
+    repository.create(category_action)
     return repository
 
 
 @pytest.fixture(scope="function")
-def genre_romance(category_1) -> Genre:
+def genre_romance(category_drama) -> Genre:
     return Genre(
         name="Romance",
         description="Genre for romance",
-        categories=[category_1],
+        categories={category_drama.id},
     )
 
 
 @pytest.fixture(scope="function")
-def genre_comedy(category_1, category_2) -> Genre:
+def genre_comedy(category_drama, category_action) -> Genre:
     return Genre(
         name="Comedy",
         description="Genre for comedy",
-        categories=[category_1, category_2],
+        categories={category_drama.id, category_action.id},
     )
 
 

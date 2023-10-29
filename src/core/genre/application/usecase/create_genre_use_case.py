@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, List
+from typing import Optional, Set
 from uuid import UUID
 
 from core._shared.application.use_case import UseCase
@@ -15,7 +15,7 @@ from core.genre.infrastructure.genre_django_app.repositories import (
 class CreateGenreInput:
     name: str
     description: str
-    categories: List[Category]
+    categories: Set[Category]  # TODO: is it ok for the application layer to know about category domain?
 
     def validate(self):
         pass
@@ -31,7 +31,12 @@ class CreateGenreUseCase(UseCase[CreateGenreInput, CreateGenreOutput]):
         self._repository = repository or GenreDjangoRepository()
 
     def execute(self, request: CreateGenreInput) -> CreateGenreOutput:
-        entity = Genre(name=request.name, description=request.description, categories=request.categories)
+        # TODO: should this fetch the Category objects from the repository?
+        entity = Genre(
+            name=request.name,
+            description=request.description,
+            categories={category_id for category_id in request.categories},
+        )
 
         self._repository.create(entity)
 

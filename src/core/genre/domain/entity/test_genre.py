@@ -3,7 +3,6 @@ from uuid import UUID, uuid4
 import pytest
 
 from core._shared.notification.notification_error import NotificationException
-from core.category.domain import Category
 from core.genre.domain.entity.genre import Genre
 
 
@@ -14,7 +13,7 @@ class TestGenreInit:
         assert genre.name == "Drama"
         assert genre.description == "Genre for drama"
         assert genre.is_active is True
-        assert genre.categories == []
+        assert genre.categories == set()
         assert genre.id is not None
         assert isinstance(genre.id, UUID)
 
@@ -24,24 +23,24 @@ class TestGenreInit:
         assert genre.name == "Drama"
         assert genre.description == "Genre for drama"
         assert genre.is_active is True
-        assert genre.categories == []
+        assert genre.categories == set()
         assert genre.id == given_genre_id
 
     def test_create_genre_with_list_of_categories(self):
-        category_1 = Category(name="Category 1", description="Category 1 description")
-        category_2 = Category(name="Category 2", description="Category 2 description")
-        genre = Genre(name="Drama", description="Genre for drama", categories=[category_1, category_2])
+        category_1 = uuid4()
+        category_2 = uuid4()
+        genre = Genre(name="Drama", description="Genre for drama", categories={category_1, category_2})
         assert genre.name == "Drama"
         assert genre.description == "Genre for drama"
         assert genre.is_active is True
-        assert genre.categories == [category_1, category_2]
+        assert genre.categories == {category_1, category_2}
         assert genre.id is not None
         assert isinstance(genre.id, UUID)
 
     def test_when_genre_is_created_with_duplicate_categories_then_dedupe_them(self):
-        category = Category(name="Drama", description="Category for drama")
-        genre = Genre(name="Genre Name", description="Any Genre", categories=[category, category])
-        assert genre.categories == [category]
+        category = uuid4()
+        genre = Genre(name="Genre Name", description="Any Genre", categories={category, category})
+        assert genre.categories == {category}
 
     def test_when_name_is_empty_then_raise_notification_error(self):
         with pytest.raises(NotificationException, match="Genre name cannot be empty"):
@@ -102,28 +101,28 @@ class TestChangeGenre:
 
 class TestAddCategory:
     def test_add_category(self):
-        category = Category(name="Category 1", description="Category 1 description")
+        category = uuid4()
         genre = Genre(name="Drama", description="Genre for drama")
         genre.add_category(category)
-        assert genre.categories == [category]
+        assert genre.categories == {category}
 
     def test_when_category_already_exists_then_do_nothing(self):
-        category = Category(name="Category 1", description="Category 1 description")
-        genre = Genre(name="Drama", description="Genre for drama", categories=[category])
+        category = uuid4()
+        genre = Genre(name="Drama", description="Genre for drama", categories={category})
         genre.add_category(category)
-        assert genre.categories == [category]
+        assert genre.categories == {category}
 
 
 class TestRemoveCategory:
     def test_remove_category(self):
-        category = Category(name="Category 1", description="Category 1 description")
-        category_2 = Category(name="Category 2", description="Category 2 description")
-        genre = Genre(name="Drama", description="Genre for drama", categories=[category, category_2])
+        category = uuid4()
+        category_2 = uuid4()
+        genre = Genre(name="Drama", description="Genre for drama", categories={category, category_2})
         genre.remove_category(category)
-        assert genre.categories == [category_2]
+        assert genre.categories == {category_2}
 
     def test_when_category_does_not_exist_then_do_nothing(self):
-        category = Category(name="Category 1", description="Category 1 description")
+        category = uuid4()
         genre = Genre(name="Drama", description="Genre for drama")
         genre.remove_category(category)
-        assert genre.categories == []
+        assert genre.categories == set()

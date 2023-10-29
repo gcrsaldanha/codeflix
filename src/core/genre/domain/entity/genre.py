@@ -1,10 +1,9 @@
 import logging
-from typing import Optional, List
+from typing import Optional, Set, TypeVar, NewType
 from uuid import UUID, uuid4
 
 from core._shared.entity.abstract_entity import AbstractEntity
 from core._shared.notification.notification_error import NotificationError, NotificationException
-from core.category.domain.entity.category import Category
 from core.genre.domain.entity.genre_interface import GenreInterface
 
 
@@ -16,7 +15,7 @@ class Genre(GenreInterface, AbstractEntity):
         description: str = "",
         is_active: bool = True,
         id: Optional[UUID] = None,
-        categories: Optional[List[Category]] = None,  # TODO: UUID
+        categories: Optional[Set[UUID]] = None,
     ) -> None:
         super().__init__()
         if not id:
@@ -26,7 +25,7 @@ class Genre(GenreInterface, AbstractEntity):
         self.__name = name
         self.__description = description
         self.__is_active = is_active
-        self.__categories: List[Category] = list(set(categories)) if categories else []
+        self.__categories = set(categories or [])
 
         super().__init__()
         self._validate()
@@ -88,15 +87,15 @@ class Genre(GenreInterface, AbstractEntity):
         return self.__description
 
     @property
-    def categories(self) -> List[Category]:
+    def categories(self) -> Set[UUID]:
         return self.__categories
 
-    def add_category(self, category: Category) -> None:  # TODO: add categories
+    def add_category(self, category: UUID) -> None:  # TODO: add categories
         if category not in self.__categories:
-            self.__categories.append(category)
+            self.__categories.add(category)
         self._validate()
 
-    def remove_category(self, category: Category) -> None:
+    def remove_category(self, category: UUID) -> None:
         if category in self.__categories:
             self.__categories.remove(category)
         self._validate()
