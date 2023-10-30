@@ -34,3 +34,7 @@ class CategoryRepositoryInterface(ABC):
     @abstractmethod
     def delete(self, category_id: UUID) -> None:
         pass
+
+    @abstractmethod
+    def count(self, filters: Optional[Dict] = None) -> int:
+        pass

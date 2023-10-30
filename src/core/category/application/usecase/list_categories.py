@@ -32,22 +32,24 @@ class ListCategories(UseCase[ListCategoriesInput, ListCategoriesOutput]):
         self._paginator_class = paginator_class
 
     def execute(self, request: ListCategoriesInput) -> ListCategoriesOutput:
+        per_page = min(request.page_size, settings.MAX_PAGE_SIZE)
+        offset = (request.page - 1) * per_page
+
         categories = self._category_repository.get_all(
             filters=request.filters,
             order_by=request.order_by or {"name": Order.ASC},
+            limit=per_page,
+            offset=offset
         )
+        total_quantity = self._category_repository.count(filters=request.filters)
 
-        per_page = min(request.page_size, settings.MAX_PAGE_SIZE)
-        paginator = self._paginator_class(object_list=categories, per_page=per_page)
-        page = paginator.get_page(number=request.page)
-        next_page = page.next_page_number() if page.has_next() else None
-        total_quantity = paginator.count
+        next_page = request.page + 1 if total_quantity > offset + per_page else None
 
         return ListCategoriesOutput(
-            data=list(page.object_list),
+            data=list(categories),
             meta=ListOutputMeta(
-                page=page.number,
-                page_size=len(page.object_list),
+                page=request.page,
+                page_size=len(categories),
                 next_page=next_page,
                 total_quantity=total_quantity,
             ),

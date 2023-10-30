@@ -16,12 +16,12 @@ Full Cycle – Codeflix
 - [x] Abstract ListCategoriesRequest – pagination, ordering, filtering
 - [x] Abstract serializers to usecase + generics
 - [x] Extend to other entities (Genre, CastMember )
-- [ ] Decouple validations from entity (serializers)
 - [x] See how dependency injection was being made in old codeflix project (queryset/repository)
-- [ ] Revisit Notification pattern (exceptions/errors)
 - [x] How to organize Django + DDD?
-- [ ] Use `result` library for operations
 - [ ] Search with Regex vs Filter
+- [ ] Decouple validations from entity (serializers)
+- [ ] Revisit Notification pattern (exceptions/errors)
+- [ ] Use `result` library for operations
 
 
 ## Business questions

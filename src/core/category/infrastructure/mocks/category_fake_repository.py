@@ -31,7 +31,6 @@ class CategoryFakeRepository(CategoryRepositoryInterface):
         )
         return ordered_entities[offset:(offset + limit)]
 
-
     def get_by_id(self, category_id: UUID) -> Optional[Category]:
         return next(
             (category for category in self._categories if category.id == category_id),
@@ -45,3 +44,6 @@ class CategoryFakeRepository(CategoryRepositoryInterface):
     def delete(self, category_id: UUID) -> None:
         category = self.get_by_id(category_id)
         self._categories.remove(category)
+
+    def count(self, filters: Optional[Dict] = None) -> int:
+        return len(self._categories)

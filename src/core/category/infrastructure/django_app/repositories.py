@@ -34,12 +34,13 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
         limit: int = settings.DEFAULT_PAGE_SIZE,
         offset: int = 0,
     ) -> Sequence[Category]:
-        # TODO: needed to return a sequence so I can have "len"? Or add count method to repository interface?
         filters = filters or {}
-        order_by = order_by or {}
-        order_by = (f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items())
+        order_by = order_by or {"name": Order.ASC}
+        # Convert the order_by dict to a format suitable for Django's ORM.
+        order_by_converted = [f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items()]
 
-        # TODO: use regex
+        queryset = self._queryset.filter(**filters).order_by(*order_by_converted)[offset:offset + limit]
+
         return [
             Category(
                 id=category_model.id,
@@ -47,19 +48,9 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
                 description=category_model.description,
                 is_active=category_model.is_active,
             )
-            for category_model in (self._queryset.filter(**filters).order_by(*order_by))
-            # If I apply offset, pagination does not work as expected
-            # for category_model in (self._queryset.filter(**filters).order_by(*order_by)[offset:(offset + limit)])
+            for category_model in queryset
         ]
-        # yield from (
-        #     Category(
-        #         id=category_model.id,
-        #         name=category_model.name,
-        #         description=category_model.description,
-        #         is_active=category_model.is_active,
-        #     )
-        #     for category_model in (self._queryset.filter(**filters).order_by(order_by)[offset:(offset + limit)])
-        # )
+
 
     def create(self, category: Category) -> None:
         category_model = CategoryModel(
@@ -80,3 +71,7 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
     def delete(self, category_id: UUID) -> None:
         category_model = self._queryset.get(id=category_id)
         category_model.delete()
+
+    def count(self, filters: Optional[Dict] = None) -> int:
+        filters = filters or {}
+        return self._queryset.filter(**filters).count()

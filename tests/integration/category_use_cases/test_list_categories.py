@@ -127,7 +127,7 @@ class TestListCategories:
 
         request = ListCategoriesInput(
             page=1,
-            page_size=1000,
+            page_size=settings.MAX_PAGE_SIZE + 1,
         )
         use_case = ListCategories()
 
