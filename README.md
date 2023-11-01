@@ -2,6 +2,14 @@
 Full Cycle – Codeflix
 
 
+## Meeting 2023-11-01 (Feedback Luiz)
+
+- [ ] Use dataclass in Domain classes
+- [ ] SQLAlchemy mapper for Domain Model
+- [ ] FastAPI  + PyDantic for validations, try to make a  usecase with FastAPI
+
+
+
 ## Next steps
 
 - [x] Use Notification Pattern for validation
@@ -18,6 +26,8 @@ Full Cycle – Codeflix
 - [x] Extend to other entities (Genre, CastMember )
 - [x] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [x] How to organize Django + DDD?
+- [ ] Create Genre: receives list of categories, validate they exist or not in the database and then create Genre with them
+  - If not exist: create Genre anyways with empty categories.
 - [ ] Search with Regex vs Filter
 - [ ] Decouple validations from entity (serializers)
 - [ ] Revisit Notification pattern (exceptions/errors)
@@ -80,10 +90,6 @@ Full Cycle – Codeflix
 - [x] Should I test `Category.validate` directly or through `Category.__init__` and `Category.change_category`?
   - See `test_category.py::TestValidate` for more details
 - [x] Where should Validator / UseCaseInterface live? In the domain layer? Similar to repository interface.
-
-
-## Meeting 2023-10-17
-- 
 
 
 
