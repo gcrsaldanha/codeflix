@@ -11,6 +11,7 @@ from core.category.infrastructure.django_app.repositories import CategoryDjangoR
 class CreateCategoryRequest:
     name: str
     description: str = ""
+    is_active: bool = True
 
     def validate(self):
         pass

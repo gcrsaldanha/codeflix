@@ -35,7 +35,7 @@ class CastMemberDjangoRepository(CastMemberRepositoryInterface):
     ) -> Sequence[CastMember]:
         filters = filters or {}
         order_by = order_by or {}
-        order_by = (f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items())
+        order_by = [f"{'-' if order == Order.DESC else ''}{field}" for field, order in order_by.items()]
 
         return [
             CastMember(

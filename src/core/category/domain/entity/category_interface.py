@@ -15,22 +15,22 @@ class CategoryInterface(ABC):
     def change_category(self, name: str, description: str) -> None:
         pass
 
-    @property
-    @abstractmethod
-    def is_active(self) -> bool:
-        pass
-
-    @property
-    @abstractmethod
-    def name(self) -> str:
-        pass
-
-    @property
-    @abstractmethod
-    def description(self) -> str:
-        pass
-
-    @property
-    @abstractmethod
-    def id(self) -> UUID:
-        pass
+    # @property
+    # @abstractmethod
+    # def is_active(self) -> bool:
+    #     pass
+    #
+    # @property
+    # @abstractmethod
+    # def name(self) -> str:
+    #     pass
+    #
+    # @property
+    # @abstractmethod
+    # def description(self) -> str:
+    #     pass
+    #
+    # @property
+    # @abstractmethod
+    # def id(self) -> UUID:
+    #     pass
