@@ -3,7 +3,8 @@ from typing import Optional, Set
 from uuid import UUID
 
 from core._shared.application.use_case import UseCase
-from core.category.domain import Category
+from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
+from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
 from core.genre.domain.entity.genre import Genre
 from core.genre.infrastructure.genre_django_app.repositories import (
     GenreRepositoryInterface,
@@ -15,7 +16,7 @@ from core.genre.infrastructure.genre_django_app.repositories import (
 class CreateGenreInput:
     name: str
     description: str
-    categories: Set[Category]  # TODO: is it ok for the application layer to know about category domain?
+    categories: Set[UUID]
 
     def validate(self):
         pass
@@ -27,11 +28,15 @@ class CreateGenreOutput:
 
 
 class CreateGenreUseCase(UseCase[CreateGenreInput, CreateGenreOutput]):
-    def __init__(self, repository: Optional[GenreRepositoryInterface] = None):
+    def __init__(
+        self,
+        repository: Optional[GenreRepositoryInterface] = None,
+        category_repository: Optional[CategoryRepositoryInterface] = None,
+    ):
         self._repository = repository or GenreDjangoRepository()
+        self._category_repository = category_repository or CategoryDjangoRepository()
 
     def execute(self, request: CreateGenreInput) -> CreateGenreOutput:
-        # TODO: should this fetch the Category objects from the repository?
         entity = Genre(
             name=request.name,
             description=request.description,

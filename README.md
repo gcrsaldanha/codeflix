@@ -4,10 +4,8 @@ Full Cycle – Codeflix
 
 ## Meeting 2023-11-01 (Feedback Luiz)
 
-- [ ] Use dataclass in Domain classes
-- [ ] SQLAlchemy mapper for Domain Model
 - [ ] FastAPI  + PyDantic for validations, try to make a  usecase with FastAPI
-
+- [ ] Use dataclass in Domain classes
 
 
 ## Next steps
@@ -28,15 +26,16 @@ Full Cycle – Codeflix
 - [x] How to organize Django + DDD?
 - [ ] Create Genre: receives list of categories, validate they exist or not in the database and then create Genre with them
   - If not exist: create Genre anyways with empty categories.
+
 - [ ] Search with Regex vs Filter
-- [ ] Decouple validations from entity (serializers)
+- [ ] Decouple validations from entity (serializers/pydantic)
 - [ ] Revisit Notification pattern (exceptions/errors)
 - [ ] Use `result` library for operations
 
 
 ## Business questions
-- [ ] Confirm Genre/Category relationship
-- [ ] Review create genre with categories use case.
+- [x] Confirm Genre/Category relationship
+- [x] Review create genre with categories use case.
   - Should GenreRepository be aware of categories?
 - [ ] What should happen if genre/category is deleted?
   - prevent deleting used Category, allow deleting Genre

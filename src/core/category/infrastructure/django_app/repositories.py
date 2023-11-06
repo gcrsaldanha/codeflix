@@ -51,7 +51,6 @@ class CategoryDjangoRepository(CategoryRepositoryInterface):
             for category_model in queryset
         ]
 
-
     def create(self, category: Category) -> None:
         category_model = CategoryModel(
             id=category.id,
