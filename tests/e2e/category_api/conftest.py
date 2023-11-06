@@ -5,6 +5,7 @@ import pytest
 from core.category.domain import Category
 from core.category.domain.repository.category_repository_interface import CategoryRepositoryInterface
 from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
+from core.category.infrastructure.fastapi_app.category_sqlalchemy_repository import CategorySQLAlchemyRepository
 
 
 @pytest.fixture(scope="function")

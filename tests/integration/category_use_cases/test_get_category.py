@@ -20,14 +20,14 @@ class TestGetCategory:
         existing_category_id = repository.get_all()[0].id
 
         request = GetCategoryRequest(category_id=existing_category_id)
-        use_case = GetCategory().execute(request)
+        use_case = GetCategory(category_repository=repository).execute(request)
 
         assert use_case == GetCategoryResponse(
             category=Category(id=existing_category_id, name="Drama", description="Category for drama")
         )
 
-    def test_when_category_does_not_exist_then_return_none(self):
+    def test_when_category_does_not_exist_then_return_none(self, repository):
         request = GetCategoryRequest(category_id=uuid4())
-        use_case = GetCategory().execute(request)
+        use_case = GetCategory(category_repository=repository).execute(request)
 
         assert use_case == GetCategoryResponse(category=None)

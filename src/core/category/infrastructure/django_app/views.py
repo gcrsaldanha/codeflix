@@ -17,6 +17,7 @@ from core.category.application.usecase.update_category import (
     UpdateCategory,
 )
 from core.category.application.usecase.exceptions import CategoryDoesNotExist
+from core.category.infrastructure.django_app.repositories import CategoryDjangoRepository
 from core.category.infrastructure.django_app.serializers import (
     CreateCategoryRequestSerializer,
     CreateCategoryResponseSerializer,
@@ -53,7 +54,7 @@ class CategoryViewSet(viewsets.ViewSet):
         request_serializer.is_valid(raise_exception=True)
         use_case_request = GetCategoryRequest(**request_serializer.validated_data)
 
-        result = GetCategory().execute(use_case_request)
+        result = GetCategory(category_repository=CategoryDjangoRepository()).execute(use_case_request)
         if result.category is None:
             return Response(status=HTTP_404_NOT_FOUND, data={"message": "Category not found"})
 
@@ -65,7 +66,7 @@ class CategoryViewSet(viewsets.ViewSet):
         request_serializer.is_valid(raise_exception=True)
         use_case_request = CreateCategoryRequest(**request_serializer.validated_data)
 
-        result = CreateCategory().execute(use_case_request)
+        result = CreateCategory(category_repository=CategoryDjangoRepository()).execute(use_case_request)
 
         response_serializer = CreateCategoryResponseSerializer(result)
         return Response(status=HTTP_201_CREATED, data=response_serializer.data)
