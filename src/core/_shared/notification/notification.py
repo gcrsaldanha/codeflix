@@ -22,3 +22,6 @@ class Notification(NotificationInterface):
 
     def has_errors(self) -> bool:
         return bool(self._errors)
+
+    def __str__(self) -> str:
+        return self.messages()

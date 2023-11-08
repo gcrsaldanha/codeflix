@@ -1,0 +1,7 @@
+- [ ] Should we validate categories and genres being assigned to a video?
+  - E.g.: There is a relationship between `Category` and `Genre`? If so, should we validate that the `Category` is related to the `Genre`?
+- [ ] Should we call validate in the constructor?
+  - For other entities I did this way.
+  - Review unit tests for Video
+- [ ] Ask Luiz about `test_invalid_video` type error
+- 

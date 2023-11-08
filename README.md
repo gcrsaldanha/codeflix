@@ -15,8 +15,9 @@ Full Cycle – Codeflix
 
 ## Meeting 2023-11-01 (Feedback Luiz)
 
-- [ ] FastAPI  + PyDantic for validations, try to make a  usecase with FastAPI
-- [ ] Use dataclass in Domain classes
+- [x] FastAPI  + PyDantic for validations, try to make a  usecase with FastAPI
+- [x] Use dataclass in Category Domain
+- [ ] Use dataclass for other domains (CastMember, Genre)
 
 
 ## Next steps
@@ -35,7 +36,7 @@ Full Cycle – Codeflix
 - [x] Extend to other entities (Genre, CastMember )
 - [x] See how dependency injection was being made in old codeflix project (queryset/repository)
 - [x] How to organize Django + DDD?
-- [ ] Create Genre: receives list of categories, validate they exist or not in the database and then create Genre with them
+- [x] Create Genre: receives list of categories, validate they exist or not in the database and then create Genre with them
   - If not exist: create Genre anyways with empty categories.
 
 - [ ] Search with Regex vs Filter

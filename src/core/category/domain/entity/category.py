@@ -16,7 +16,7 @@ class Category(CategoryInterface, AbstractEntity):
     is_active: bool = True
 
     def __post_init__(self):
-        super().__init__()
+        super().__post_init__()
 
         if not self.id:
             self.id = uuid4()

@@ -13,6 +13,8 @@ class NotificationError:
         return f"{self.context}: {self.message}"
 
     def __eq__(self, other: "NotificationError") -> bool:
+        if not isinstance(other, NotificationError):
+            return False
         return self.message == other.message and self.context == other.context
 
 
