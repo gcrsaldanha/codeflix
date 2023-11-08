@@ -2,6 +2,17 @@
 Full Cycle – Codeflix
 
 
+## Meeting 2023-11-06 – Video / Events
+
+- Dentro de `AggregateRoot` vou armazenar eventos
+- Criar video
+  - Com mídia
+  - Sem mídia (uploading)
+    - Vai ser um evento saber que a mídia terminou de ser uploaded
+  - Sem mídia e editar depois adicionando mídia
+- O vídeo vai ter ValueObjects
+
+
 ## Meeting 2023-11-01 (Feedback Luiz)
 
 - [ ] FastAPI  + PyDantic for validations, try to make a  usecase with FastAPI
@@ -41,7 +52,7 @@ Full Cycle – Codeflix
   - prevent deleting used Category, allow deleting Genre
 - [ ] Updating a Genre –> should we allow updating the categories? Or should it be a separate add/remove category usecase?
 - [ ] Review GenreRepository: TODO - relationship with GenreCategory (get_by_id)
-- [ ] Fetching the related Category Ids should be in the repository or in the Django Model? 
+- [ ] Fetching the related Category Ids should be in the repository or in the Django Model?
 - [x] If the client is responsible for checking for NotificationError, then if it forgets to check, we can create a "bad" entity? E.g.: set `name="""` then save it.
 - [x] Should I be able to change a `Category` that is not active?
 - [x] Confirm `Category.change_category` should update both `name` and `description`

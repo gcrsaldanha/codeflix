@@ -15,13 +15,13 @@ from core.category.infrastructure.fastapi_app.orm import start_mappers, metadata
 app = FastAPI()
 
 # Setup database
-DATABASE_URL = "sqlite://"  # TODO: use ROOT_DIR (same DB as Django)
+DATABASE_URL = "sqlite:///dbfast.sqlite3"  # TODO: use ROOT_DIR (same DB as Django)
+engine = create_engine(DATABASE_URL)
+metadata.create_all(engine)
+# start_mappers()
 
 
 def get_db():
-    start_mappers()
-    engine = create_engine(DATABASE_URL)
-    metadata.create_all(engine)
     SessionLocal = sessionmaker(bind=engine)
     db = SessionLocal()
     try:

@@ -17,4 +17,4 @@ shell:
 	python -m manage shell_plus
 
 runfast:
-	uvicorn src.fastapi_project.main:app --reload
+	uvicorn src.fastapi_project.main:app --reload --port 3000
