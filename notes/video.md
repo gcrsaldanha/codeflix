@@ -1,3 +1,8 @@
+- [ ] Does domain dispatch events and store them?
+- [ ] Where/when should I register event handlers?
+- [ ] Should Events have a generic "payload" or specific attributes?
+- [ ] Confirm database – persist UUIDs for Video medias
+- [ ] Events organization – inside / outside domain?
 - [ ] Should we validate categories and genres being assigned to a video?
   - E.g.: There is a relationship between `Category` and `Genre`? If so, should we validate that the `Category` is related to the `Genre`?
 - [ ] Should we call validate in the constructor?

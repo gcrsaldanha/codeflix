@@ -22,6 +22,10 @@ Full Cycle – Codeflix
 
 ## Next steps
 
+### 2023-11-08
+- [ ] Abstract pydantic validation for all entities and create Aggregate root
+
+### Old
 - [x] Use Notification Pattern for validation
 - [x] Add `CreateCategory` and `ListCategories` usecases
 - [x] Add repository for Category (concrete implementation)
