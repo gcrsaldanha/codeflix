@@ -22,7 +22,7 @@ class IEventDispatcher(ABC):
         raise NotImplementedError
 
 
-class EventDispatcher(IEventDispatcher):
+class ventDispatcher(IEventDispatcher):
     def __init__(self):
         self._handlers: Dict[str, List[IEventHandler]] = {}
 

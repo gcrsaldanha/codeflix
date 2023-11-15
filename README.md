@@ -22,8 +22,18 @@ Full Cycle – Codeflix
 
 ## Next steps
 
-### 2023-11-08
+### 2023-11-13
+- [ ] Add e2e tests for error
+- [ ] Update/Delete return 204
+- [ ] Create 201
+- [ ] Upload 200
 - [ ] Abstract pydantic validation for all entities and create Aggregate root
+  - 422 Unprocessable Entity
+- Domain error: 500
+- [ ] Docker MySQL
+- [ ] Domain Event
+- !!![ ] Gravar duas aulas introdutórias e uma live coding
+
 
 ### Old
 - [x] Use Notification Pattern for validation

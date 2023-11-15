@@ -1,24 +1,24 @@
 from dataclasses import dataclass
 from unittest.mock import create_autospec
-from core._shared.events.event import Event
+from core._shared.events.event import DomainEvent
 from core._shared.events.event_dispatcher import EventDispatcher
 from core._shared.events.event_handler import IEventHandler
 
 
 class FakeHandler(IEventHandler):
-    def handle(self, event: Event) -> None:
+    def handle(self, event: DomainEvent) -> None:
         print(f"Handling event: {event.__class__.__name__} with payload: {event.payload}")
 
 
 @dataclass(frozen=True, slots=True)
-class FakeEventCreated(Event):
+class FakeDomainEventCreated(DomainEvent):
     pass
 
 
 def test_should_register_an_event_handler():
     event_dispatcher = EventDispatcher()
     handler = FakeHandler()
-    event = FakeEventCreated()
+    event = FakeDomainEventCreated()
     event_type = event.__class__.__name__
 
     event_dispatcher.register(event_type=event_type, handler=handler)
@@ -29,7 +29,7 @@ def test_should_register_an_event_handler():
 def test_should_unregister_an_event_handler():
     event_dispatcher = EventDispatcher()
     handler = FakeHandler()
-    event = FakeEventCreated(payload={"custom_attribute": "abc"})
+    event = FakeDomainEventCreated(payload={"custom_attribute": "abc"})
     event_type = event.__class__.__name__
     event_dispatcher.register(event_type=event_type, handler=handler)
 
@@ -41,7 +41,7 @@ def test_should_unregister_an_event_handler():
 def test_should_dispatch_event_to_handler():
     event_dispatcher = EventDispatcher()
     handler = create_autospec(IEventHandler)
-    event = FakeEventCreated({"custom_attribute": "abc"})
+    event = FakeDomainEventCreated({"custom_attribute": "abc"})
     event_type = event.__class__.__name__
     event_dispatcher.register(event_type=event_type, handler=handler)
 

@@ -1,3 +1,4 @@
+- [ ] Upload video: only the video or any AudioVideoMedia?
 - [ ] Does domain dispatch events and store them?
 - [ ] Where/when should I register event handlers?
 - [ ] Should Events have a generic "payload" or specific attributes?

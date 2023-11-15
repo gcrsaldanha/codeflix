@@ -8,7 +8,7 @@ from pydantic_core import ValidationError
 
 from core._shared.entity.abstract_entity import AbstractEntity
 from core._shared.notification.notification_error import NotificationError
-from core.video.events.events import TrailerUpdated, VideoUpdated
+from core.video.domain.events import VideoUploaded, AudioVideoMediaUpdated
 from core.video.domain.value_objects import (
     Rating,
     ImageMedia,
@@ -20,7 +20,7 @@ from core.video.domain.value_objects import (
 class Video(AbstractEntity):
     title: str
     description: str
-    launch_year: int  # changed from launched_at to  launch_year
+    launch_year: int
     duration: Decimal
     opened: bool
     published: bool
@@ -96,12 +96,12 @@ class Video(AbstractEntity):
         self.thumbnail_half = thumbnail_half
         return self
 
-    def update_trailer(self, trailer: AudioVideoMedia):
-        self.trailer = trailer
-        self.dispatcher.dispatch(TrailerUpdated({"id": trailer.id}))
-        return self
-
     def update_video(self, video: AudioVideoMedia):
         self.video = video
-        self.dispatcher.dispatch(VideoUpdated({"video_id": self.id, "media_id": video.id}))
+        self.add_event(AudioVideoMediaUpdated({"video_id": self.id, "media_id": video.id, "type": "video"}))
+        return self
+
+    def update_trailer(self, trailer: AudioVideoMedia):
+        self.trailer = trailer
+        self.add_event(AudioVideoMediaUpdated({"video_id": self.id, "media_id": trailer.id, "type": "trailer"}))
         return self

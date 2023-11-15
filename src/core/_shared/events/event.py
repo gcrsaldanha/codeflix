@@ -5,7 +5,7 @@ from typing import Dict
 
 
 @dataclass(slots=True, frozen=True)
-class Event(ABC):
+class DomainEvent(ABC):
     payload: Dict = field(default_factory=dict)
 
     @property

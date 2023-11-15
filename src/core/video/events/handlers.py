@@ -1,14 +1,13 @@
 from core._shared.events.event_handler import IEventHandler
 from core.video.application.add_media_to_video_use_case import AddMediaToVideoUseCase, AddMediaToVideoInput
 from core.video.domain.value_objects import AudioVideoMedia
-from core.video.events.events import VideoUploaded
+from core.video.domain.events import VideoUploaded
 from core.video.infrastructure.video_django_app.repositories import VideoDjangoRepository
 
 
 class HandleVideoUploaded(IEventHandler):
     def handle(self, event: VideoUploaded) -> None:
         print(f"Handling event: {event.type} with payload {event.payload}")
-        print("Video was successfully uploaded")
         print("Fetching video entity from repository")
         repository = VideoDjangoRepository()
         video_entity = repository.get_by_id(event.payload["video_id"])
