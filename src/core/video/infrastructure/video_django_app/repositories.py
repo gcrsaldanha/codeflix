@@ -3,7 +3,7 @@ from uuid import UUID
 
 from django.db.models import QuerySet
 
-from core._shared.entity.abstract_entity import EventService
+from core._shared.events.event_service import EventService
 from core.video.domain.entities import Video
 from core.video.domain.video_repository_interface import VideoRepositoryInterface
 from core.video.infrastructure.video_django_app.models import Video as VideoModel

@@ -2,6 +2,13 @@
 Full Cycle – Codeflix
 
 
+## 2023-11-20
+- [ ] Moving `validate` to the `AbstractEntity`: how to deal with different types of validations?
+  - E.g.: TypeAdapter vs "business"? Name being present vs name being under a specific limit?
+  - I added `extra_validate` for now (having issues with inheritance and dataclass)
+- [ ] Raise error in __post_init__? See Genre vs Video.
+
+
 ## Meeting 2023-11-06 – Video / Events
 
 - Dentro de `AggregateRoot` vou armazenar eventos

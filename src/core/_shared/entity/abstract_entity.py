@@ -1,20 +1,14 @@
 from abc import ABC
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Dict, Any
+
+from pydantic import TypeAdapter, ValidationError
 
 from core._shared.events.event import DomainEvent
+from core._shared.events.event_service import EventServiceInterface
 from core._shared.notification.notification import Notification
+from core._shared.notification.notification_error import NotificationError
 from core._shared.notification.notification_interface import NotificationInterface
-
-
-class EventServiceInterface(ABC):  # TODO: move to another module
-    def send(self, event: DomainEvent) -> None:
-        raise NotImplementedError
-
-
-class EventService(EventServiceInterface):  # TODO: move to another module
-    def send(self, event: DomainEvent) -> None:
-        print("Sending event", event)
 
 
 @dataclass(slots=True)
@@ -34,3 +28,10 @@ class AbstractEntity(ABC):
             event_service.send(event)
 
         self.events = []
+
+    def _validate(self, data: Dict[str, Any]):
+        try:
+            TypeAdapter(self.__class__).validate_python(data)
+        except ValidationError as e:
+            for error in e.errors():
+                self.notification.add_error(NotificationError(message=error["msg"], context=error["loc"][0]))

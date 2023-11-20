@@ -1,9 +1,11 @@
+from dataclasses import dataclass
 from typing import Iterable, List
 
 from core._shared.notification.notification_error import NotificationError
 from core._shared.notification.notification_interface import NotificationInterface
 
 
+@dataclass
 class Notification(NotificationInterface):
     def __init__(self) -> None:
         self._errors: List[NotificationError] = []

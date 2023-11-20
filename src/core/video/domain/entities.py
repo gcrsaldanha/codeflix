@@ -8,7 +8,7 @@ from pydantic_core import ValidationError
 
 from core._shared.entity.abstract_entity import AbstractEntity
 from core._shared.notification.notification_error import NotificationError
-from core.video.domain.events import VideoUploaded, AudioVideoMediaUpdated
+from core.video.domain.events import AudioVideoMediaUpdated
 from core.video.domain.value_objects import (
     Rating,
     ImageMedia,
@@ -38,13 +38,6 @@ class Video(AbstractEntity):
     video: AudioVideoMedia | None = None
 
     id: UUID = field(default_factory=uuid4)
-
-    def validate(self):
-        try:
-            TypeAdapter(self.__class__).validate_python(asdict(self))
-        except ValidationError as e:
-            for error in e.errors():
-                self.notification.add_error(NotificationError(message=error["msg"], context=error["loc"][0]))
 
     def add_categories(self, categories: Set[UUID]):
         self.categories.update(categories)
@@ -83,6 +76,9 @@ class Video(AbstractEntity):
         self.cast_members = cast_members
         self.validate()
         return self
+
+    def validate(self):
+        self._validate(asdict(self))
 
     def update_banner(self, banner: ImageMedia):
         self.banner = banner

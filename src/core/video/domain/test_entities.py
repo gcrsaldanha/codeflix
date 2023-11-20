@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import pytest
 
-from core.video.domain.value_objects import Rating, ImageMedia, AudioVideoMedia
+from core.video.domain.value_objects import Rating, ImageMedia, AudioVideoMedia, MediaStatus
 from core.video.domain.entities import Video
 from core._shared.notification.notification_error import NotificationError, NotificationException
 
@@ -64,7 +64,9 @@ class TestVideoEntity:
             cast_members={uuid4()},
             banner=ImageMedia(uuid4(), "checksum", "banner.jpg", "path/to/banner"),
             thumbnail=None,  # Testing None value for an optional attribute
-            trailer=AudioVideoMedia(uuid4(), "checksum", "trailer.mp4", "raw_path", "encoded_path", "COMPLETED"),
+            trailer=AudioVideoMedia(
+                uuid4(), "checksum", "trailer.mp4", "raw_path", "encoded_path", MediaStatus.COMPLETED
+            ),
         )
 
         video.validate()
