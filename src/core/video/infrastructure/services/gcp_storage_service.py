@@ -2,7 +2,7 @@ from google.cloud import storage
 from google.oauth2 import service_account
 
 from core.video.domain.storage_service_interface import StorageServiceInterface
-from core.video.domain.value_objects import MediaResource, MediaType
+from core.video.domain.entity.value_objects import MediaResource, MediaType
 from uuid import UUID
 
 

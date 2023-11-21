@@ -8,17 +8,12 @@ from core._shared.events.event import DomainEvent
 from core._shared.events.event_service import EventServiceInterface
 from core._shared.notification.notification import Notification
 from core._shared.notification.notification_error import NotificationError
-from core._shared.notification.notification_interface import NotificationInterface
 
 
 @dataclass(slots=True)
 class AbstractEntity(ABC):
-    notification: Notification = field(init=False)
-    events: List[DomainEvent] = field(init=False)
-
-    def __post_init__(self):
-        self.notification: NotificationInterface = Notification()
-        self.events: List[DomainEvent] = []
+    notification: Notification = field(init=False, default_factory=Notification)
+    events: List[DomainEvent] = field(init=False, default_factory=list)
 
     def add_event(self, event: DomainEvent) -> None:
         self.events.append(event)

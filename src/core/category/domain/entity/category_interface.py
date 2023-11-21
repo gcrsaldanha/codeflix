@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from uuid import UUID
 
 
 class CategoryInterface(ABC):
@@ -14,23 +13,3 @@ class CategoryInterface(ABC):
     @abstractmethod
     def change_category(self, name: str, description: str) -> None:
         pass
-
-    # @property
-    # @abstractmethod
-    # def is_active(self) -> bool:
-    #     pass
-    #
-    # @property
-    # @abstractmethod
-    # def name(self) -> str:
-    #     pass
-    #
-    # @property
-    # @abstractmethod
-    # def description(self) -> str:
-    #     pass
-    #
-    # @property
-    # @abstractmethod
-    # def id(self) -> UUID:
-    #     pass

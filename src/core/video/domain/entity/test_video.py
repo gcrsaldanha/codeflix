@@ -1,12 +1,9 @@
-import unittest
-from uuid import UUID, uuid4
+from uuid import uuid4
 from decimal import Decimal
 
-import pytest
-
-from core.video.domain.value_objects import Rating, ImageMedia, AudioVideoMedia, MediaStatus
-from core.video.domain.entities import Video
-from core._shared.notification.notification_error import NotificationError, NotificationException
+from core.video.domain.entity.value_objects import Rating, ImageMedia, AudioVideoMedia, MediaStatus
+from core.video.domain.entity.video import Video
+from core._shared.notification.notification_error import NotificationError
 
 
 class TestVideoEntity:

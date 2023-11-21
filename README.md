@@ -2,11 +2,26 @@
 Full Cycle – Codeflix
 
 
+## Next steps
+
+### 2023-11-13
+- [ ] Add e2e tests for error
+- [ ] Update/Delete return 204
+- [ ] Create 201
+- [ ] Upload 200
+- [ ] Abstract pydantic validation for all entities and create Aggregate root
+  - 422 Unprocessable Entity
+  - Domain error: 500
+- [ ] Docker MySQL
+- [x] Domain Event
+- !!![ ] Gravar duas aulas introdutórias e uma live coding
+
+
 ## 2023-11-20
 - [ ] Moving `validate` to the `AbstractEntity`: how to deal with different types of validations?
   - E.g.: TypeAdapter vs "business"? Name being present vs name being under a specific limit?
-  - I added `extra_validate` for now (having issues with inheritance and dataclass)
 - [ ] Raise error in __post_init__? See Genre vs Video.
+- [ ] Why calling `super()._validate({})` is hitting maximum recursion?
 
 
 ## Meeting 2023-11-06 – Video / Events
@@ -25,21 +40,6 @@ Full Cycle – Codeflix
 - [x] FastAPI  + PyDantic for validations, try to make a  usecase with FastAPI
 - [x] Use dataclass in Category Domain
 - [ ] Use dataclass for other domains (CastMember, Genre)
-
-
-## Next steps
-
-### 2023-11-13
-- [ ] Add e2e tests for error
-- [ ] Update/Delete return 204
-- [ ] Create 201
-- [ ] Upload 200
-- [ ] Abstract pydantic validation for all entities and create Aggregate root
-  - 422 Unprocessable Entity
-- Domain error: 500
-- [ ] Docker MySQL
-- [ ] Domain Event
-- !!![ ] Gravar duas aulas introdutórias e uma live coding
 
 
 ### Old

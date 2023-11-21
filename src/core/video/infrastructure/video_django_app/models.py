@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from core.video.domain.value_objects import MediaStatus, Rating
+from core.video.domain.entity.value_objects import MediaStatus, Rating
 
 
 class Video(models.Model):

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from core.video.domain.value_objects import MediaResource, MediaType, AudioVideoMedia, ImageMedia
+from core.video.domain.entity.value_objects import MediaResource, MediaType, AudioVideoMedia, ImageMedia
 
 
 class StorageServiceInterface(ABC):

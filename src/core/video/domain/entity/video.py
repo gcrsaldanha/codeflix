@@ -3,13 +3,9 @@ from decimal import Decimal
 from typing import Set
 from uuid import UUID, uuid4
 
-from pydantic import TypeAdapter
-from pydantic_core import ValidationError
-
 from core._shared.entity.abstract_entity import AbstractEntity
-from core._shared.notification.notification_error import NotificationError
 from core.video.domain.events import AudioVideoMediaUpdated
-from core.video.domain.value_objects import (
+from core.video.domain.entity.value_objects import (
     Rating,
     ImageMedia,
     AudioVideoMedia,

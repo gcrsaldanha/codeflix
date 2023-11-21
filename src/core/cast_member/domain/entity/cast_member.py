@@ -1,4 +1,5 @@
 import logging
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 from uuid import UUID, uuid4
@@ -13,24 +14,14 @@ class CastMemberType(Enum):
     ACTOR = "actor"
 
 
+@dataclass(slots=True, kw_only=True)
 class CastMember(CastMemberInterface, AbstractEntity):
-    def __init__(
-        self,
-        *,
-        name: str,
-        cast_member_type: CastMemberType,
-        id: Optional[UUID] = None,
-    ) -> None:
-        super().__init__()
-        if not id:
-            id = uuid4()
+    name: str
+    cast_member_type: CastMemberType
+    id: Optional[UUID] = field(default_factory=uuid4)
 
-        self.__id = id
-        self.__name = name
-        self.__cast_member_type = cast_member_type
-
-        super().__init__()
-        self._validate()
+    def __post_init__(self):
+        self.validate()
         if self.notification.has_errors():
             raise NotificationException(self.notification.errors)
 
@@ -45,7 +36,7 @@ class CastMember(CastMemberInterface, AbstractEntity):
     def __hash__(self) -> int:
         return hash(self.id)
 
-    def _validate(self) -> None:
+    def validate(self) -> None:
         if not self.name:
             self.notification.add_error(NotificationError(message="name cannot be empty", context="cast_member"))
         if len(self.name) > 255:
@@ -57,18 +48,6 @@ class CastMember(CastMemberInterface, AbstractEntity):
 
     def change_cast_member(self, name: str, cast_member_type: CastMemberType) -> None:
         logging.info(f"Changing CastMember {self.name} to {name} wih type {cast_member_type}")
-        self.__name = name
-        self.__cast_member_type = cast_member_type
-        self._validate()
-
-    @property
-    def name(self) -> str:
-        return self.__name
-
-    @property
-    def cast_member_type(self) -> CastMemberType:
-        return self.__cast_member_type
-
-    @property
-    def id(self) -> UUID:
-        return self.__id
+        self.name = name
+        self.cast_member_type = cast_member_type
+        self.validate()

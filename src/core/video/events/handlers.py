@@ -1,6 +1,6 @@
 from core._shared.events.event_handler import IEventHandler
 from core.video.application.add_media_to_video_use_case import AddMediaToVideoUseCase, AddMediaToVideoInput
-from core.video.domain.value_objects import AudioVideoMedia
+from core.video.domain.entity.value_objects import AudioVideoMedia
 from core.video.domain.events import VideoUploaded
 from core.video.infrastructure.video_django_app.repositories import VideoDjangoRepository
 

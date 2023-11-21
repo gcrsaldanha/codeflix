@@ -1,5 +1,5 @@
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field, asdict
 from typing import Optional
 from uuid import UUID, uuid4
 
@@ -11,17 +11,12 @@ from core.category.domain.entity.category_interface import CategoryInterface
 @dataclass(eq=False)
 class Category(CategoryInterface, AbstractEntity):
     name: str
-    id: Optional[UUID] = None
+    id: Optional[UUID] = field(default_factory=uuid4)
     description: str = ""
     is_active: bool = True
 
     def __post_init__(self):
-        super().__post_init__()
-
-        if not self.id:
-            self.id = uuid4()
-
-        self._validate()
+        self.validate()
         if self.notification.has_errors():
             raise NotificationException(self.notification.errors)
 
@@ -36,7 +31,7 @@ class Category(CategoryInterface, AbstractEntity):
     def __hash__(self) -> int:
         return hash(self.id)
 
-    def _validate(self) -> None:  # TODO: decouple validation from Entity with a Validator
+    def validate(self) -> None:
         if not self.name:
             self.notification.add_error(NotificationError(message="Category name cannot be empty", context="category"))
         if len(self.name) > 255:
@@ -54,15 +49,15 @@ class Category(CategoryInterface, AbstractEntity):
     def activate(self) -> None:
         logging.info(f"Activating category {self.name}")
         self.is_active = True
-        self._validate()
+        self.validate()
 
     def deactivate(self) -> None:
         logging.info(f"Activating category {self.name}")
         self.is_active = False
-        self._validate()
+        self.validate()
 
     def change_category(self, name: str, description: str) -> None:
         logging.info(f"Changing category {self.name} to {name} wih description {description}")
         self.name = name
         self.description = description
-        self._validate()
+        self.validate()

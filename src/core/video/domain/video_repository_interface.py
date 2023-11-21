@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional
 from uuid import UUID
 
-from core.video.domain.entities import Video
+from core.video.domain.entity.video import Video
 
 
 class VideoRepositoryInterface(ABC):
