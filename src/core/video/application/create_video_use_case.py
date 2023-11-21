@@ -18,7 +18,7 @@ from core.video.domain.entity.video import Video
 from core.video.domain.storage_service_interface import StorageServiceInterface
 from core.video.domain.entity.value_objects import Resource, MediaResource, MediaType
 from core.video.domain.entity.value_objects import Rating
-from core.video.domain.video_repository_interface import VideoRepositoryInterface
+from core.video.domain.repository.video_repository_interface import VideoRepositoryInterface
 from core.video.infrastructure.services.gcp_storage_service import GCPStorageService
 from core.video.infrastructure.video_django_app.repositories import VideoDjangoRepository
 

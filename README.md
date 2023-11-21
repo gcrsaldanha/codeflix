@@ -20,8 +20,9 @@ Full Cycle – Codeflix
 ## 2023-11-20
 - [ ] Moving `validate` to the `AbstractEntity`: how to deal with different types of validations?
   - E.g.: TypeAdapter vs "business"? Name being present vs name being under a specific limit?
-- [ ] Raise error in __post_init__? See Genre vs Video.
-- [ ] Why calling `super()._validate({})` is hitting maximum recursion?
+  - [ ] Raise error in __post_init__? See Genre vs Video.
+  - [ ] Why calling `super()._validate({})` is hitting maximum recursion?
+  - Overall, finding it hard to understand where/how we should add validations
 
 
 ## Meeting 2023-11-06 – Video / Events
