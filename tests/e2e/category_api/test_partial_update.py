@@ -16,17 +16,7 @@ class TestPartiallyUpdateCategoryView:
             },
         )
 
-        assert (response.status_code, response.data) == (
-            200,
-            {
-                "data": {
-                    "id": str(category.id),
-                    "name": "Category 2",
-                    "description": "Category 1 description",
-                    "is_active": True,
-                }
-            },
-        )
+        assert (response.status_code, response.data) == (200, {})
 
     def test_update_only_category_description(self, category: Category) -> None:
         response = APIClient().patch(
@@ -36,17 +26,7 @@ class TestPartiallyUpdateCategoryView:
             },
         )
 
-        assert (response.status_code, response.data) == (
-            200,
-            {
-                "data": {
-                    "id": str(category.id),
-                    "name": "Category 1",
-                    "description": "Category 2 description",
-                    "is_active": True,
-                }
-            },
-        )
+        assert (response.status_code, response.data) == (200, {})
 
     def test_update_name_and_description(self, category: Category) -> None:
         response = APIClient().patch(
@@ -58,14 +38,7 @@ class TestPartiallyUpdateCategoryView:
         )
 
         assert response.status_code == 200
-        assert response.data == {
-            "data": {
-                "id": str(category.id),
-                "name": "Category 2",
-                "description": "Category 2 description",
-                "is_active": True,
-            }
-        }
+        assert response.data == {}
 
     def test_when_category_does_not_exist_then_return_404(self) -> None:
         category_id = uuid4()

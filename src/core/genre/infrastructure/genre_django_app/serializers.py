@@ -46,11 +46,10 @@ class UpdateGenreRequestSerializer(serializers.Serializer):
     name = serializers.CharField(required=True)
     description = serializers.CharField(required=True, allow_blank=True, allow_null=False)
     is_active = serializers.BooleanField(required=True)
-    # categories = serializers.ListField(required=True, child=serializers.UUIDField())
 
 
 class UpdateGenreResponseSerializer(serializers.Serializer):
-    data = GenreSerializer(source="genre")
+    pass
 
 
 class PartialUpdateGenreRequestSerializer(serializers.Serializer):
@@ -58,11 +57,10 @@ class PartialUpdateGenreRequestSerializer(serializers.Serializer):
     name = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
     is_active = serializers.BooleanField(required=False)
-    # categories = serializers.ListField(child=serializers.UUIDField(), required=False, default=None, allow_null=True)
 
 
 class PartialUpdateGenreResponseSerializer(serializers.Serializer):
-    data = GenreSerializer(source="genre")
+    pass
 
 
 class DeleteGenreRequestSerializer(serializers.Serializer):

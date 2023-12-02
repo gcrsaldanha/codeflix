@@ -16,16 +16,7 @@ class TestPartiallyUpdateCastMemberView:
             },
         )
 
-        assert (response.status_code, response.data) == (
-            200,
-            {
-                "data": {
-                    "id": str(actor.id),
-                    "name": "Johnny Doe",
-                    "cast_member_type": "ACTOR",
-                }
-            },
-        )
+        assert (response.status_code, response.data) == (200, {})
 
     def test_update_only_cast_member_type(self, actor: CastMember) -> None:
         response = APIClient().patch(
@@ -35,16 +26,7 @@ class TestPartiallyUpdateCastMemberView:
             },
         )
 
-        assert (response.status_code, response.data) == (
-            200,
-            {
-                "data": {
-                    "id": str(actor.id),
-                    "name": actor.name,
-                    "cast_member_type": "DIRECTOR",
-                },
-            },
-        )
+        assert (response.status_code, response.data) == (200, {})
 
     def test_update_name_and_type(self, actor: CastMember) -> None:
         response = APIClient().patch(
@@ -56,13 +38,7 @@ class TestPartiallyUpdateCastMemberView:
         )
 
         assert response.status_code == 200
-        assert response.data == {
-            "data": {
-                "id": str(actor.id),
-                "name": "Jonny Doe",
-                "cast_member_type": "DIRECTOR",
-            }
-        }
+        assert response.data == {}
 
     def test_when_cast_member_does_not_exist_then_return_404(self) -> None:
         cast_member_id = uuid4()

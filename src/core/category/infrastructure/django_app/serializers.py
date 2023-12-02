@@ -47,7 +47,7 @@ class UpdateCategoryRequestSerializer(serializers.Serializer):
 
 
 class UpdateCategoryResponseSerializer(serializers.Serializer):
-    data = CategorySerializer(source="category")
+    pass
 
 
 class PartialUpdateCategoryRequestSerializer(serializers.Serializer):
@@ -58,7 +58,7 @@ class PartialUpdateCategoryRequestSerializer(serializers.Serializer):
 
 
 class PartialUpdateCategoryResponseSerializer(serializers.Serializer):
-    data = CategorySerializer(source="category")
+    pass
 
 
 class DeleteCategoryRequestSerializer(serializers.Serializer):

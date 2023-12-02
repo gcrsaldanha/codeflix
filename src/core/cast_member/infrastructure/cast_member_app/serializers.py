@@ -66,7 +66,7 @@ class UpdateCastMemberRequestSerializer(serializers.Serializer):
 
 
 class UpdateCastMemberResponseSerializer(serializers.Serializer):
-    data = CastMemberSerializer(source="cast_member")
+    pass
 
 
 class PartialUpdateCastMemberRequestSerializer(serializers.Serializer):
@@ -76,7 +76,7 @@ class PartialUpdateCastMemberRequestSerializer(serializers.Serializer):
 
 
 class PartialUpdateCastMemberResponseSerializer(serializers.Serializer):
-    data = CastMemberSerializer(source="cast_member")
+    pass
 
 
 class DeleteCastMemberRequestSerializer(serializers.Serializer):
