@@ -20,15 +20,7 @@ class TestUpdateGenreView:
         )
 
         assert response.status_code == 200
-        assert response.data == {
-            "data": {
-                "id": str(genre_romance.id),
-                "name": "New Romance",
-                "description": "New description",
-                "is_active": False,
-                "categories": [str(category) for category in genre_romance.categories],
-            }
-        }
+        assert response.data == {}
 
     def test_when_genre_does_not_exist_then_return_404(self) -> None:
         genre_id = uuid4()

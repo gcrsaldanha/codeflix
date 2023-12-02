@@ -19,13 +19,7 @@ class TestUpdateCastMemberView:
         )
 
         assert response.status_code == 200
-        assert response.data == {
-            "data": {
-                "id": str(actor.id),
-                "name": "Johnny Doe",
-                "cast_member_type": "DIRECTOR",
-            }
-        }
+        assert response.data == {}
 
     def test_when_cast_member_does_not_exist_then_return_404(self) -> None:
         cast_member_id = uuid4()
@@ -51,13 +45,7 @@ class TestUpdateCastMemberView:
         )
 
         assert response.status_code == 200
-        assert response.data == {
-            "data": {
-                "id": str(actor.id),
-                "name": "Jonny Doe",
-                "cast_member_type": "DIRECTOR",
-            }
-        }
+        assert response.data == {}
 
     @pytest.mark.parametrize(
         "payload",

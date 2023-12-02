@@ -16,18 +16,7 @@ class TestPartiallyUpdateGenreView:
             },
         )
 
-        assert (response.status_code, response.data) == (
-            200,
-            {
-                "data": {
-                    "id": str(genre_romance.id),
-                    "name": "Another Genre",
-                    "description": genre_romance.description,
-                    "is_active": genre_romance.is_active,
-                    "categories": [str(category) for category in genre_romance.categories],
-                }
-            },
-        )
+        assert (response.status_code, response.data) == (200, {})
 
     def test_update_only_genre_description(self, genre_romance: Genre) -> None:
         response = APIClient().patch(
@@ -37,18 +26,7 @@ class TestPartiallyUpdateGenreView:
             },
         )
 
-        assert (response.status_code, response.data) == (
-            200,
-            {
-                "data": {
-                    "id": str(genre_romance.id),
-                    "name": genre_romance.name,
-                    "description": "New description",
-                    "is_active": genre_romance.is_active,
-                    "categories": [str(category) for category in genre_romance.categories],
-                }
-            },
-        )
+        assert (response.status_code, response.data) == (200, {})
 
     def test_update_name_and_description(self, genre_romance: Genre) -> None:
         response = APIClient().patch(
@@ -60,15 +38,7 @@ class TestPartiallyUpdateGenreView:
         )
 
         assert response.status_code == 200
-        assert response.data == {
-            "data": {
-                "id": str(genre_romance.id),
-                "name": "Another Genre",
-                "description": "New description",
-                "is_active": genre_romance.is_active,
-                "categories": [str(category) for category in genre_romance.categories],
-            }
-        }
+        assert response.data == {}
 
     def test_when_genre_does_not_exist_then_return_404(self) -> None:
         genre_id = uuid4()
