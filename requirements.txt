@@ -1,9 +1,15 @@
-black==23.9.1
-pytest==7.4.2
-pytest-django==4.5.2
-
-django-extensions==3.2.3
-ipython==8.16.1
-
+# Production/Staging
 Django==4.2.5
 djangorestframework==3.14.0
+mysqlclient==2.2.0
+pydantic==2.3.0
+python-dotenv==1.0.0
+result==0.13.1
+
+# Development/Testing
+black==23.9.1
+django-extensions==3.2.3
+freezegun==1.2.2
+ipython==8.15.0
+pytest-django==4.5.2
+pytest==7.4.2
